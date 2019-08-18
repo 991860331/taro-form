@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./dist",
+  "projectname": "microgit",
+  "description": "",
+  "appid": "wx6260da497cbf05de",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
