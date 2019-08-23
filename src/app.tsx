@@ -30,10 +30,20 @@ class App extends Component {
       'pages/index/index'
     ],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      backgroundTextStyle: 'dark', 
+      navigationBarBackgroundColor: '#ff0000',
+      navigationBarTitleText: 'micro-git',
+      navigationBarTextStyle: 'white',
+    },
+    tabBar: {
+      list: [{
+        text: '首页',
+        pagePath: 'pages/index/index',
+      }, {
+        text: '详情页',
+        pagePath: 'pages/index/index',
+      }],
+      color: '#ff0000',
     }
   }
 

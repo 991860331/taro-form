@@ -1,5 +1,5 @@
 const config = {
-  projectName: 'myTaroApp',
+  projectName: 'micro-git',
   date: '2019-8-17',
   designWidth: 750,
   deviceRatio: {
