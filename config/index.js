@@ -1,3 +1,6 @@
+
+const path = require('path')
+
 const config = {
   projectName: 'micro-git',
   date: '2019-8-17',
@@ -20,7 +23,13 @@ const config = {
       plugins: [
         'transform-decorators-legacy',
         'transform-class-properties',
-        'transform-object-rest-spread'
+        'transform-object-rest-spread',
+        // ['module-resolver', {
+        //   root: ['.'],
+        //   alias: {
+        //     '@/': './src/',
+        //   }
+        // }],
       ]
     }
   },
@@ -31,6 +40,9 @@ const config = {
     ],
     options: {
     }
+  },
+  alias: {
+    '@': path.resolve(__dirname, '../src'),
   },
   weapp: {
     module: {
