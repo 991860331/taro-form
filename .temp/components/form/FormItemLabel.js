@@ -1,21 +1,27 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View, Text } from '@tarojs/components';
-import Context from './Context';
+import cls from 'classnames';
 import './style/FormItemLabel.scss';
+const topPlacement = ['TEXTAREA'];
 export default class FormItemLabel extends Taro.PureComponent {
   render() {
-    const { colon, hideRequiredMark } = this.context;
-    const { children, rules } = this.props;
+    const { children, rules, isError, fieldType, colon, hideRequiredMark, layout } = this.props;
     const isRequired = rules.find(rule => rule.required);
-    return <View>
+    const isTop = topPlacement.includes(fieldType);
+    const isVertical = layout === 'vertical';
+    return <View className={cls("item-label", {
+      error: isError,
+      vertical: isVertical,
+      topPlacement: isTop
+    })}>
         {isRequired && !hideRequiredMark && <Text className="required-star">*</Text>}
-        {children}
+        <Text>{children}</Text>
         {colon && <Text className="colon">:</Text>}
       </View>;
   }
 }
-FormItemLabel.contextType = Context;
 FormItemLabel.defaultProps = {
-  rules: []
+  rules: [],
+  isError: false
 };

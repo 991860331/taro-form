@@ -4,11 +4,12 @@ import { View } from '@tarojs/components';
 import { AtInput, AtTextarea } from 'taro-ui';
 export default class Control extends Taro.PureComponent {
   render() {
-    const { child, onChange, name, value } = this.props;
+    const { child, onChange, name, value, isError, onErrorClick } = this.props;
     const { type, ...otherProps } = child;
+    otherProps.error = isError;
     otherProps.value = value;
     otherProps.onChange = onChange;
-    console.log('render', name);
+    otherProps.onErrorClick = onErrorClick;
     if (type === 'TEXT') {
       return <View>
           <AtInput name={name} type="text" {...otherProps} />

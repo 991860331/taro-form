@@ -1,28 +1,33 @@
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import Context from './Context'
+import cls from 'classnames'
 import { IFormItemLabel } from './interface'
 import './style/FormItemLabel.scss'
 
-
+const topPlacement = ['TEXTAREA']
 export default class FormItemLabel extends Taro.PureComponent<IFormItemLabel> {
-
-  static contextType = Context
 
   static defaultProps = {
     rules: [],
+    isError: false,
   }
 
   render() {
-    const { colon, hideRequiredMark } = this.context
-    const { children, rules } = this.props
+    const { children, rules, isError, fieldType, colon, hideRequiredMark, layout } = this.props
     const isRequired = rules.find(rule => rule.required)
+    const isTop = topPlacement.includes(fieldType)
+    const isVertical = layout === 'vertical' 
     return (
-      <View>
+      <View className={cls("item-label", {
+          error: isError,
+          vertical: isVertical,
+          topPlacement: isTop,
+        })}
+      >
         {isRequired&&!hideRequiredMark&&(
           <Text className="required-star">*</Text>
         )}
-        {children}
+        <Text>{children}</Text>
         {colon&&(
           <Text className="colon">:</Text>
         )}

@@ -1,11 +1,34 @@
+.item-label {
+  padding-right: 24px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  width: 170px;
+  position: relative;
+  font-size: 30px;
+}
+
+.topPlacement {
+  align-items: stretch;
+}
+
+.vertical {
+  margin-bottom: 12px;
+}
+
 .required-star {
   color: red;
   display: inline-block;
-  padding-right: 6px;
-  transform: translateY(-4px);
+  position: absolute;
+  left: -22px;
+  top: -8px;
+}
+
+.error {
+  color: red;
 }
 
 .colon {
   display: inline-block;
-  transform: translate(4px, -2px);
+  transform: translate(8px, -2px);
 }

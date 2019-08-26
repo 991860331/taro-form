@@ -1,13 +1,17 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
+import cls from 'classnames';
+import { AtToast } from "taro-ui";
 import FormItemLabel from './FormItemLabel';
-import Context from './Context';
 import Control from "../field/index";
 import './style/FormItem.scss';
 export default class FormItem extends Taro.PureComponent {
   constructor() {
     super(...arguments);
+    this.state = {
+      isOpened: false
+    };
     this.onChange = (value, event) => {
       const { field, onChange } = this.props;
       const { fieldCode } = field;
@@ -17,20 +21,43 @@ export default class FormItem extends Taro.PureComponent {
         onChange(fieldCode, value);
       }
     };
+    this.onErrorClick = () => {
+      this.setState({
+        isOpened: true
+      });
+    };
+    this.onToastClose = () => {
+      this.setState({
+        isOpened: false
+      });
+    };
   }
   render() {
-    const { field, value } = this.props;
+    const { isOpened } = this.state;
+    const { field, value, error, hideRequiredMark, colon, layout } = this.props;
     const { fieldCode, label, rules, child } = field;
-    return <View className="form-item">
-        <FormItemLabel rules={rules}>{label}</FormItemLabel>
+    if (!child) return null;
+    const { type } = child;
+    const isError = error.length > 0;
+    const isHorizontal = layout === 'horizontal';
+    const showErrors = error.join("\n");
+    return <View className={cls("form-item", {
+      horizontal: isHorizontal
+    })}>
+        <FormItemLabel colon={colon} rules={rules} layout={layout} isError={isError} fieldType={type} hideRequiredMark={hideRequiredMark}>
+          {label}
+        </FormItemLabel>
         <View className="item-component">
-          <Control value={value} name={fieldCode} onChange={this.onChange} child={child} />
+          <Control name={fieldCode} value={value} child={child} isError={isError} onChange={this.onChange} onErrorClick={this.onErrorClick} />
+          <View>
+            <AtToast hasMask duration={3000} isOpened={isOpened} text={showErrors} onClose={this.onToastClose}>
+            </AtToast>
+          </View>
         </View>
-        <View className="error-message">这里是报错信息</View>
       </View>;
   }
 }
-FormItem.contextType = Context;
 FormItem.defaultProps = {
-  field: {}
+  field: {},
+  error: []
 };

@@ -10,7 +10,11 @@ interface ICpForm {
 interface IFormItem {
   field: Ifield;
   value: any;
+  error: string[];
   onChange: Function;
+  colon: boolean;
+  layout: 'horizontal'|'vertical';
+  hideRequiredMark?: boolean;
 }
 
 interface Ifield {
@@ -22,7 +26,15 @@ interface Ifield {
 
 interface IFormItemLabel {
   rules: Array;
-  
+  isError: boolean;
+  fieldType: string;
+  colon: boolean;
+  layout: 'horizontal'|'vertical';
+  hideRequiredMark?: boolean;
+}
+
+interface IFormItemError {
+  data: string[],
 }
 
 interface Ichild {
@@ -30,9 +42,23 @@ interface Ichild {
   [otherProps: string]: any;
 }
 
+interface Irule {
+  len?: number;
+  max?: number;
+  min?: number;
+  enums?: any[];
+  type?: string;
+  message: string;
+  pattern?: RegExp;
+  required?: boolean;
+  whitespace?: boolean;
+}
+
 export {
+  Irule,
   Ichild,
   ICpForm,
   IFormItem,
   IFormItemLabel,
+  IFormItemError,
 }

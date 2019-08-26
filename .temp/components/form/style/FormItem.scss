@@ -1,15 +1,16 @@
 .form-item {
-  padding-bottom: 24px;
+  margin-bottom: 24px;
 }
-.error-message {
-  color: red;
-  font-size: 22px;
-}
+
 .item-component {
-  padding-bottom: 24px;
+  flex: 1;
   .at-input {
-    margin-left: 0 !important;
+    margin-left: 0;
   }
+}
+
+.horizontal {
+  display: flex;
 }
 
 

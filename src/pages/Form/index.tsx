@@ -2,55 +2,44 @@ import Taro from '@tarojs/taro'
 import { View, Block } from '@tarojs/components'
 import { AtInput, AtForm, AtButton } from 'taro-ui'
 import CpForm from '@/components/form'
+import { fields } from './fields'
 import './index.scss'
 
-const { Item } = CpForm
-
-const fields = [
-	{
-		fieldCode: 'name',
-		label: "名称",
-		rules: [{
-			required: true,
-			message: "必填",
-		}],
-		child: {
-			type: 'TEXT',
-		}
-	},{
-		fieldCode: 'age',
-		label: "多行文本",
-		child: {
-			type: 'TEXTAREA',
-			placeholder: '你的问题是...',
-		}
-	},
-]
 
 export default class Index extends Taro.PureComponent {
 
 	componentDidMount() {
-		console.log("formInstance:", this.formInstance)
+		
 	}
 
 	onFieldsChange = (name, values) => {
-		console.log("onFieldsChange:", name, values)
+		
 	}
 
 	submit = () => {
 		this.formInstance.submit()
+			.then(res => {
+				console.log('submitdata', res)
+			})
+			.catch(err => {
+				console.log('submiterr', err)
+			})
+	}
+
+	reset = () => {
+		this.formInstance.resetFields()
 	}
 
 	formInstance = null
 
 	render() {
 		return (
-			<View>
+			<View className="wrapper">
 				<CpForm
-					colon={false}
+					colon
 					hideRequiredMark={false}
 					ref={instance => this.formInstance=instance}
-					layout="horizontal"
+					layout="vertical"
 					fields={fields}
 					initialValues={{
 						name: 'shisongyan',
@@ -58,7 +47,10 @@ export default class Index extends Taro.PureComponent {
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>
-				<AtButton type='primary' onClick={this.submit}>submit</AtButton>
+				<View className="buttons">
+					<AtButton type='primary' onClick={this.submit}>submit</AtButton>
+					<AtButton onClick={this.reset}>reset</AtButton>
+				</View>
 			</View>
 		)
 	}

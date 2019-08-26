@@ -1,13 +1,15 @@
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtInput, AtTextarea } from 'taro-ui'
+import { AtInput, AtTextarea, AtToast } from 'taro-ui'
 import { Ichild } from '../form/interface'
 
 interface IControl {
   name: string;
   child: Ichild;
   value: any;
+  isError: boolean;
   onChange: Function;
+  onErrorClick: Function;
 }
 
 
@@ -19,11 +21,12 @@ export default class Control extends Taro.PureComponent<IControl> {
   }
 
   render() {
-    const { child, onChange, name, value } = this.props
+    const { child, onChange, name, value, isError, onErrorClick } = this.props
     const { type, ...otherProps } = child
+    otherProps.error = isError
     otherProps.value = value
     otherProps.onChange = onChange
-    console.log('render', name)
+    otherProps.onErrorClick = onErrorClick
     if (type === 'TEXT') {
       return (
         <View>
