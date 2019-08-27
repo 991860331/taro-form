@@ -17,6 +17,8 @@ interface IControl {
   isError: boolean;
   onChange: Function;
   onErrorClick: Function;
+  label?: string;
+  [otherProps: string]: any;
 }
 
 
@@ -33,7 +35,7 @@ export default class Control extends Taro.PureComponent<IControl> {
   } 
 
   render() {
-    const { child, onChange, name, value, isError, onErrorClick } = this.props
+    const { child, onChange, label, name, value, isError, onErrorClick } = this.props
     const { type, ...otherProps } = child
     otherProps.error = isError
     otherProps.value = value
@@ -97,7 +99,7 @@ export default class Control extends Taro.PureComponent<IControl> {
     if (type === 'DATE') {
       return (
         <Date 
-          name={name}
+          label={label}
           {...otherProps}
         />
       )

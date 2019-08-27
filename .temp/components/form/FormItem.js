@@ -15,13 +15,16 @@ export default class FormItem extends Taro.PureComponent {
     this.onChange = (value, event) => {
       const { field, onChange } = this.props;
       const { fieldCode } = field;
-      if (value.target && typeof value.target === 'object') {
-        onChange(fieldCode, value.target.value);
-      } else {
-        onChange(fieldCode, value);
+      let fieldValue = value;
+      if (value && value.target && typeof value.target === 'object') {
+        fieldValue = value.target.value;
       }
+      onChange(fieldCode, fieldValue);
     };
-    this.onErrorClick = () => {
+    this.onErrorClick = e => {
+      if (e) {
+        e.preventDefault();
+      }
       this.setState({
         isOpened: true
       });
@@ -48,11 +51,10 @@ export default class FormItem extends Taro.PureComponent {
           {label}
         </FormItemLabel>
         <View className="item-component">
-          <Control name={fieldCode} value={value} child={child} isError={isError} onChange={this.onChange} onErrorClick={this.onErrorClick} />
-          <View>
-            <AtToast hasMask duration={3000} isOpened={isOpened} text={showErrors} onClose={this.onToastClose}>
-            </AtToast>
-          </View>
+          <Control name={fieldCode} value={value} label={label} child={child} isError={isError} onChange={this.onChange} onErrorClick={this.onErrorClick} />
+          {isError && <View>
+              <AtToast duration={3000} isOpened={isOpened} text={showErrors} onClose={this.onToastClose} />
+            </View>}
         </View>
       </View>;
   }

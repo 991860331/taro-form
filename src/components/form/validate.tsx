@@ -287,6 +287,7 @@ export default (fieldName: string, rules: Array<{}>, fieldValue: any, type?: str
     .then(res => {
       return []
     }).catch(error => {
+      console.log(error, 'err')
       return error.errors.map(err => err.message)
     })
 }

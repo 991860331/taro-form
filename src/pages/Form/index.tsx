@@ -46,6 +46,7 @@ export default class Index extends Taro.PureComponent {
 						age: 18,
 						height: 177.50,
 						gender: true,
+						// date: '2019-09-12'
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>

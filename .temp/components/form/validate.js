@@ -1,3 +1,5 @@
+import schema from 'async-validator';
+import { isNumberString } from './utils';
 // 必填校验
 const validateRequired = value => {
   if (value === undefined || value === null || value === "") {
@@ -109,3 +111,91 @@ export const getValidateFunction = rule => {
     return validateFunctionMap[validateType];
   }
 };
+// number 组件返回的数据类型是 string, 所以需要强行校验
+const numberType = ['INT', 'DOUBLE', 'CURRENCY', 'PERCENTAGE'];
+export default ((fieldName, rules, fieldValue, type) => {
+  const isNumber = type && numberType.includes(type);
+  if (typeof fieldName !== 'string' || !Array.isArray(rules) || rules.length === 0) {
+    return Promise.resolve();
+  }
+  const formatedRules = rules.map(rule => {
+    if (rule.whitespace) {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (value) {
+            return !value.includes(" ");
+          }
+          return true;
+        }
+      };
+    }
+    if (typeof rule.min === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (isNumber || typeof value === 'number') {
+            if (!isNumberString(value)) return true;
+            return rule.min <= Number(value);
+          }
+          if (typeof value === 'string' || Array.isArray(value)) {
+            return rule.min <= value.length;
+          }
+          return true;
+        }
+      };
+    }
+    if (typeof rule.max === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (isNumber || typeof value === 'number') {
+            if (!isNumberString(value)) return true;
+            return rule.max >= Number(value);
+          }
+          if (typeof value === 'string' || Array.isArray(value)) {
+            return rule.max >= value.length;
+          }
+          return true;
+        }
+      };
+    }
+    if (typeof rule.precision === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (isNumber || typeof value === 'number') {
+            const decimal = String(value).split(".")[1] || "";
+            const length = decimal.length;
+            return rule.precision === length;
+          }
+          return true;
+        }
+      };
+    }
+    if (rule.type === 'integer') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (typeof value === 'number' && value % 1 === 0) {
+            return true;
+          }
+          if (isNumber) {
+            return value && isNumberString(value);
+          }
+          return false;
+        }
+      };
+    }
+    return rule;
+  });
+  const validator = new schema({
+    [fieldName]: formatedRules
+  });
+  return validator.validate({ [fieldName]: fieldValue }).then(res => {
+    return [];
+  }).catch(error => {
+    console.log(error, 'err');
+    return error.errors.map(err => err.message);
+  });
+});

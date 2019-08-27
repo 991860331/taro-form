@@ -34,11 +34,6 @@ let Index = class Index extends Component {
   config = {
     navigationBarTitleText: '首页'
   };
-
-  componentDidMount() {
-    super.componentDidMount && super.componentDidMount();
-  }
-
 };
 Index = tslib_1.__decorate([connect(({ counter }) => ({
   counter

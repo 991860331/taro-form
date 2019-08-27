@@ -2,7 +2,7 @@ import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
 import FormItem from './FormItem';
-import { getValidateFunction } from './validate';
+import validator from './validate';
 import './style/index.scss';
 class CpForm extends Taro.PureComponent {
   constructor() {
@@ -20,23 +20,14 @@ class CpForm extends Taro.PureComponent {
     this.setFieldsValue(initialValues);
   }
   validateField(fieldName, fieldValue) {
-    if (typeof fieldName !== 'string') return;
+    if (typeof fieldName !== 'string') return Promise.resolve();
     const { fields } = this.props;
     const field = fields.find(item => item.fieldCode === fieldName);
-    if (!field) return;
-    const { rules } = field;
-    if (!Array.isArray(rules)) return;
-    const errors = [];
-    rules.forEach(rule => {
-      const validateFunction = getValidateFunction(rule);
-      if (typeof validateFunction !== 'function') return;
-      const isError = validateFunction(fieldValue, rule);
-      if (!isError) return;
-      if (rule && rule.message) {
-        errors.push(rule.message);
-      }
+    if (!field) return Promise.resolve();
+    const { rules, child: { type } } = field;
+    return validator(fieldName, rules, fieldValue, type).then(errors => {
+      return errors;
     });
-    return errors;
   }
   render() {
     const { fields, layout, colon, hideRequiredMark } = this.props;
@@ -54,16 +45,18 @@ class CpForm extends Taro.PureComponent {
   onChange = (fieldName, value) => {
     const { fieldValues, fieldErrors } = this.state;
     const { onFieldsChange } = this.props;
-    console.log("onChange:", fieldName, ":", value);
-    const error = this.validateField(fieldName, value);
+    this.validateField(fieldName, value).then(error => {
+      this.setState({
+        fieldErrors: {
+          ...fieldErrors,
+          [fieldName]: error
+        }
+      });
+    });
     this.setState({
       fieldValues: {
         ...fieldValues,
         [fieldName]: value
-      },
-      fieldErrors: {
-        ...fieldErrors,
-        [fieldName]: error
       }
     }, () => {
       if (typeof onFieldsChange === 'function') {
@@ -118,26 +111,14 @@ class CpForm extends Taro.PureComponent {
     }
     return fieldsValue;
   };
-  getFieldError = fieldName => {
+  submit = async () => {
     const { fieldValues } = this.state;
-    return this.validateField(fieldName, fieldValues[fieldName]);
-  };
-  getFieldsError = fieldNames => {
-    const fieldErrors = {};
-    const { fields } = this.props;
-    const { fieldValues } = this.state;
-    const validateFields = Array.isArray(fieldNames) ? fieldNames : fields.map(field => field.fieldCode);
-    validateFields.forEach(fieldName => {
-      const error = this.validateField(fieldName, fieldValues[fieldName]);
-      fieldErrors[fieldName] = error;
+    const fieldErrors = await this.validateFields();
+    const hasError = Object.keys(fieldErrors).find(fieldName => {
+      const filedError = fieldErrors[fieldName];
+      return filedError && filedError.length;
     });
-    return fieldErrors;
-  };
-  submit = () => {
-    const { fieldValues } = this.state;
     return new Promise((resolve, reject) => {
-      const fieldErrors = this.validateFields();
-      const hasError = Object.keys(fieldErrors).find(fieldName => fieldErrors[fieldName].length);
       if (hasError) {
         reject(fieldErrors);
       } else {
@@ -145,8 +126,16 @@ class CpForm extends Taro.PureComponent {
       }
     });
   };
-  validateFields = fieldNames => {
-    const fieldErrors = this.getFieldsError(fieldNames);
+  validateFields = async fieldNames => {
+    const fieldErrors = {};
+    const { fields } = this.props;
+    const { fieldValues } = this.state;
+    const validateFields = Array.isArray(fieldNames) ? fieldNames : fields.map(field => field.fieldCode);
+    for (const fieldCode of validateFields) {
+      const fieldValue = fieldValues[fieldCode];
+      const errors = await this.validateField(fieldCode, fieldValue);
+      fieldErrors[fieldCode] = errors;
+    }
     this.setState({
       fieldErrors
     });

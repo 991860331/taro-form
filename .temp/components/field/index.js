@@ -1,37 +1,53 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
-import { AtInput, AtTextarea } from 'taro-ui';
+import { AtInput } from 'taro-ui';
+import TextArea from "./TextArea/index";
+import NumberInput from "./NumberInput/index";
+import Percentage from "./Percentage/index";
+import Currency from "./Currency/index";
+import Boolean from "./Boolean/index";
+import Date from "./Date/index";
+import './index.scss';
 export default class Control extends Taro.PureComponent {
   render() {
-    const { child, onChange, name, value, isError, onErrorClick } = this.props;
+    const { child, onChange, label, name, value, isError, onErrorClick } = this.props;
     const { type, ...otherProps } = child;
     otherProps.error = isError;
     otherProps.value = value;
     otherProps.onChange = onChange;
     otherProps.onErrorClick = onErrorClick;
     if (type === 'TEXT') {
-      return <View>
-          <AtInput name={name} type="text" {...otherProps} />
-        </View>;
+      return <AtInput name={name} type="text" {...otherProps} />;
     }
     if (type === 'TEXTAREA') {
-      return <View>
-          <AtTextarea {...otherProps} />
-        </View>;
+      return <TextArea {...otherProps} />;
     }
     if (type === 'INT') {
-      return <View>
-          <AtInput name={name} type="number" {...otherProps} />
-        </View>;
+      return <NumberInput name={name} {...otherProps} />;
     }
     if (type === 'DOUBLE') {
-      return <AtInput name={name} type="number" {...otherProps} />;
+      return <NumberInput name={name} {...otherProps} />;
     }
-    return <View>未注册的字段类型</View>;
+    if (type === 'BOOLEAN') {
+      return <Boolean {...otherProps} />;
+    }
+    if (type === 'CURRENCY') {
+      return <Currency name={name} {...otherProps} />;
+    }
+    if (type === 'PERCENTAGE') {
+      return <Percentage name={name} {...otherProps} />;
+    }
+    if (type === 'DATE') {
+      return <Date label={label} {...otherProps} />;
+    }
+    return <View className="unregistered">未注册的字段类型</View>;
   }
 }
 Control.defaultProps = {
   child: {},
   onChange: () => {}
+};
+Control.options = {
+  styleIsolation: 'shared'
 };

@@ -25,8 +25,10 @@ export default class Index extends Taro.PureComponent {
   render() {
     return <View className="wrapper">
 				<CpForm colon hideRequiredMark={false} ref={instance => this.formInstance = instance} layout="vertical" fields={fields} initialValues={{
-        name: 'shisongyan',
-        age: 20
+        realName: "石松岩",
+        age: 18,
+        height: 177.50,
+        gender: true
       }} onFieldsChange={this.onFieldsChange} />
 				<View className="buttons">
 					<AtButton type="primary" onClick={this.submit}>submit</AtButton>

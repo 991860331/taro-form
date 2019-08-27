@@ -120,6 +120,12 @@ export const fields = [
 			type: 'DATE',
 			placeholder: '请选择出生日期',
 		},
+		rules: [
+			{
+				required: true,
+				message: '出生日期必填'
+			}
+		]
 	}, {
 		fieldCode: 'textarea',
 		label: "反馈",

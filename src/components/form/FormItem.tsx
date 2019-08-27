@@ -74,6 +74,7 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
           <Control 
             name={fieldCode} 
             value={value} 
+            label={label}
             child={child} 
             isError={isError}
             onChange={this.onChange} 
