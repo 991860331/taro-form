@@ -1,5 +1,5 @@
 export const fields = [{
-  fieldCode: 'name',
+  fieldCode: 'text',
   label: "昵称",
   rules: [{
     required: true,
@@ -22,14 +22,35 @@ export const fields = [{
     placeholder: '请输入您的昵称'
   }
 }, {
-  fieldCode: 'age',
-  label: "多行文本",
+  fieldCode: 'int',
+  label: "年龄",
+  child: {
+    type: 'INT',
+    placeholder: '请输入您的年龄'
+  },
+  rules: [{
+    max: 35,
+    message: "最大年纪为 35"
+  }, {
+    min: 18,
+    message: "最小年纪为 18"
+  }]
+}, {
+  fieldCode: 'textarea',
+  label: "反馈",
   child: {
     type: 'TEXTAREA',
     placeholder: '你的问题是...'
   },
   rules: [{
-    type: 'string',
-    message: "文本"
+    required: true,
+    message: "反馈内容必填"
   }]
+}, {
+  fieldCode: 'double',
+  label: "浮点数",
+  child: {
+    type: 'DOUBLE',
+    placeholder: '输入浮点数'
+  }
 }];

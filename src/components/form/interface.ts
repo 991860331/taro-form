@@ -52,6 +52,7 @@ interface Irule {
   pattern?: RegExp;
   required?: boolean;
   whitespace?: boolean;
+  [otherProps: string]: any;
 }
 
 export {

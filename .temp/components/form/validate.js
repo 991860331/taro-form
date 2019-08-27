@@ -29,6 +29,7 @@ const validateMax = (value, rule) => {
 // string 类型为字符串最小长度；number 类型时为最小值；array 类型时为数组最小长度
 const validateMin = (value, rule) => {
   const { min } = rule;
+  if (!value) return;
   if (typeof min !== 'number') return;
   if (typeof value === 'string' || Array.isArray(value)) {
     if (value.length < min) return true;

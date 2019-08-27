@@ -2,6 +2,10 @@ import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtInput, AtTextarea, AtToast } from 'taro-ui'
 import { Ichild } from '../form/interface'
+import TextArea from './TextArea'
+import NumberInput from './NumberInput'
+import Boolean from './Boolean'
+import './index.scss'
 
 interface IControl {
   name: string;
@@ -13,12 +17,17 @@ interface IControl {
 }
 
 
+
 export default class Control extends Taro.PureComponent<IControl> {
 
   static defaultProps = {
     child: {},
     onChange: () => {},
   }
+
+  static options = {
+    styleIsolation: 'shared'
+  } 
 
   render() {
     const { child, onChange, name, value, isError, onErrorClick } = this.props
@@ -41,11 +50,37 @@ export default class Control extends Taro.PureComponent<IControl> {
     if (type === 'TEXTAREA') {
       return (
         <View>
-          <AtTextarea 
+          <TextArea 
             {...otherProps}
           />
         </View>
       )
     }
+    if (type === 'INT') {
+      return (
+        <View>
+          <NumberInput 
+            name={name}
+            {...otherProps}
+          />
+        </View>
+      )
+    }
+    if (type === 'DOUBLE') {
+      return (
+        <NumberInput 
+          name={name}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'BOOLEAN') {
+      return (
+        <Boolean 
+          {...otherProps}
+        />
+      )
+    }
+    return <View className="unregistered">未注册的字段类型</View>
   }
 }

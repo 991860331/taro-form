@@ -1,0 +1,12 @@
+.error-wrapper {
+  position: relative;
+}
+
+.error {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  z-index: 10;
+  background: white;
+  padding-right: 10px;
+}

@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Block } from '@tarojs/components'
+import { View, Block, Text } from '@tarojs/components'
 import { AtInput, AtForm, AtButton } from 'taro-ui'
 import CpForm from '@/components/form'
 import { fields } from './fields'
@@ -42,8 +42,9 @@ export default class Index extends Taro.PureComponent {
 					layout="vertical"
 					fields={fields}
 					initialValues={{
-						name: 'shisongyan',
-						age: "18"
+						realName: "石松岩",
+						age: 18
+
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>
@@ -55,3 +56,8 @@ export default class Index extends Taro.PureComponent {
 		)
 	}
 }
+
+
+
+
+

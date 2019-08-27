@@ -22,14 +22,18 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
   onChange = (value, event) => {
     const { field, onChange } = this.props
     const { fieldCode } = field
-    if (value.target && typeof value.target === 'object') {
-      onChange(fieldCode, value.target.value)
-    } else {
-      onChange(fieldCode, value)
+    let fieldValue = value
+    
+    if (value && value.target && typeof value.target === 'object') {
+      fieldValue = value.target.value
     }
+    onChange(fieldCode, fieldValue)
   }
 
-  onErrorClick = () => {
+  onErrorClick = e => {
+    if (e) {
+      e.preventDefault()
+    }
     this.setState({
       isOpened: true
     })
@@ -75,16 +79,15 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
             onChange={this.onChange} 
             onErrorClick={this.onErrorClick}
           />
-          <View>
-            <AtToast 
-              hasMask
-              duration={3000}
-              isOpened={isOpened}
-              text={showErrors} 
-              onClose={this.onToastClose}
-            >
-            </AtToast>
-          </View>
+          {isError&&(
+            <View>
+              <AtToast 
+                duration={3000}
+                isOpened={isOpened}
+                text={showErrors} 
+                onClose={this.onToastClose}
+              />
+            </View>)}
         </View>
       </View>
     )

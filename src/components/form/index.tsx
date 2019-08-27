@@ -2,8 +2,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import FormItem from './FormItem'
 import { ICpForm } from './interface'
-import Context from './Context'
-import { getValidateFunction } from './validate'
+import validator from './validate'
 import './style/index.scss'
 
 
@@ -37,16 +36,18 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 	onChange = (fieldName: string, value: any) => {
 		const { fieldValues, fieldErrors } = this.state
 		const { onFieldsChange } = this.props
-		console.log("onChange:", fieldName,":", value)
-		const error = this.validateField(fieldName, value)
+		this.validateField(fieldName, value).then(error => {
+			this.setState({
+				fieldErrors: {
+					...fieldErrors,
+					[fieldName]: error
+				}
+			})
+		})
 		this.setState({
 			fieldValues: {
 				...fieldValues,
 				[fieldName]: value
-			},
-			fieldErrors: {
-				...fieldErrors,
-				[fieldName]: error
 			}
 		}, () => {
 			if (typeof onFieldsChange === 'function') {
@@ -106,28 +107,14 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 		return fieldsValue
 	}
 
-	getFieldError = (fieldName: string) => {
+	submit = async () => {
 		const { fieldValues } = this.state
-		return this.validateField(fieldName, fieldValues[fieldName])
-	}
-
-	getFieldsError = (fieldNames?: string[]) => {
-		const fieldErrors = {}
-		const { fields } = this.props
-		const { fieldValues } = this.state
-		const validateFields = Array.isArray(fieldNames) ? fieldNames: fields.map(field => field.fieldCode)
-		validateFields.forEach(fieldName => {
-			const error = this.validateField(fieldName, fieldValues[fieldName])
-			fieldErrors[fieldName] = error
+		const fieldErrors = await this.validateFields()
+		const hasError = Object.keys(fieldErrors).find(fieldName => {
+			const filedError = fieldErrors[fieldName]
+			return filedError && filedError.length
 		})
-		return fieldErrors
-	}
-
-	submit = () => {
-		const { fieldValues } = this.state
 		return new Promise((resolve, reject) => {
-			const fieldErrors = this.validateFields()
-			const hasError = Object.keys(fieldErrors).find(fieldName => fieldErrors[fieldName].length)
 			if (hasError) {
 				reject(fieldErrors)
 			} else {
@@ -136,8 +123,16 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 		})
 	}
 
-	validateFields = (fieldNames?: string[]) => {
-		const fieldErrors = this.getFieldsError(fieldNames)
+	validateFields = async (fieldNames?: string[]) => {
+		const fieldErrors = {}
+		const { fields } = this.props
+		const { fieldValues } = this.state
+		const validateFields = Array.isArray(fieldNames) ? fieldNames: fields.map(field => field.fieldCode)
+		for (const fieldCode of validateFields) {
+			const fieldValue = fieldValues[fieldCode]
+			const errors = await this.validateField(fieldCode, fieldValue)
+			fieldErrors[fieldCode] = errors
+		}
 		this.setState({
 			fieldErrors,
 		})
@@ -145,23 +140,14 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 	}
 
 	validateField(fieldName: string, fieldValue: any) {
-		if (typeof fieldName !== 'string') return 
+		if (typeof fieldName !== 'string') return Promise.resolve()
 		const { fields } = this.props
 		const field = fields.find(item => item.fieldCode === fieldName)
-		if (!field) return
+		if (!field) return Promise.resolve()
 		const { rules } =  field
-		if (!Array.isArray(rules)) return
-		const errors: string[] = []
-		rules.forEach(rule => {
-			const validateFunction = getValidateFunction(rule)
-			if (typeof validateFunction !== 'function') return 
-			const isError = validateFunction(fieldValue, rule)
-			if (!isError) return 
-			if (rule && rule.message) {
-				errors.push(rule.message)
-			}
+		return validator(fieldName, rules, fieldValue).then(errors => {
+			return errors
 		})
-		return errors
 	}
 
 	render() {

@@ -20,6 +20,15 @@ export default class Control extends Taro.PureComponent {
           <AtTextarea {...otherProps} />
         </View>;
     }
+    if (type === 'INT') {
+      return <View>
+          <AtInput name={name} type="number" {...otherProps} />
+        </View>;
+    }
+    if (type === 'DOUBLE') {
+      return <AtInput name={name} type="number" {...otherProps} />;
+    }
+    return <View>未注册的字段类型</View>;
   }
 }
 Control.defaultProps = {

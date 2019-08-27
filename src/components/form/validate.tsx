@@ -1,6 +1,6 @@
 
 import { Irule } from './interface'
-
+import schema from 'async-validator'
 
 // 必填校验
 const validateRequired = value => {
@@ -52,6 +52,7 @@ const validateMax = (value, rule) => {
 // string 类型为字符串最小长度；number 类型时为最小值；array 类型时为数组最小长度
 const validateMin = (value, rule) => {
   const { min } = rule
+  if (!value) return
   if (typeof min !== 'number') return
   if (
     typeof value === 'string' || 
@@ -163,6 +164,79 @@ export const getValidateFunction = (rule: Irule) => {
   }
 }
 
+
+
+
+const handleWhitespace = () => {
+
+}
+
+export default (fieldName: string, rules: Array<{}>, fieldValue: any) => {
+  if (
+    typeof fieldName !== 'string' ||
+    !Array.isArray(rules) ||
+    rules.length === 0
+  ) {
+    return Promise.resolve()
+  }
+  const formatedRules = rules.map((rule: Irule) => {
+    if (rule.whitespace) {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (value) {
+            return !value.includes(" ")
+          }
+          return true
+        }
+      }
+    }
+    if (typeof rule.min === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (
+            typeof value === 'string' ||
+            Array.isArray(value)
+          ) {
+            return rule.min <= value.length
+          }
+          if (typeof value === 'number') {
+            return rule.min <= value
+          }
+          return true
+        }
+      }
+    }
+    if (typeof rule.max === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (
+            typeof value === 'string' ||
+            Array.isArray(value)
+          ) {
+            return rule.max >= value.length
+          }
+          if (typeof value === 'number') {
+            return rule.max >= value
+          }
+          return true
+        }
+      }
+    }
+    return rule
+  })
+  const validator = new schema({
+    [fieldName]: formatedRules
+  })
+  return validator.validate({[fieldName]: fieldValue})
+    .then(res => {
+      return []
+    }).catch(error => {
+      return error.errors.map(err => err.message)
+    })
+}
 
 
 
