@@ -43,8 +43,9 @@ export default class Index extends Taro.PureComponent {
 					fields={fields}
 					initialValues={{
 						realName: "石松岩",
-						age: 18
-
+						age: 18,
+						height: 177.50,
+						gender: true,
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>

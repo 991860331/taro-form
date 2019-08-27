@@ -4,7 +4,10 @@ import { AtInput, AtTextarea, AtToast } from 'taro-ui'
 import { Ichild } from '../form/interface'
 import TextArea from './TextArea'
 import NumberInput from './NumberInput'
+import Percentage from './Percentage'
+import Currency from './Currency'
 import Boolean from './Boolean'
+import Date from './Date'
 import './index.scss'
 
 interface IControl {
@@ -38,32 +41,26 @@ export default class Control extends Taro.PureComponent<IControl> {
     otherProps.onErrorClick = onErrorClick
     if (type === 'TEXT') {
       return (
-        <View>
-          <AtInput 
-            name={name}
-            type='text'
-            {...otherProps}
-          />
-        </View>
+        <AtInput 
+          name={name}
+          type='text'
+          {...otherProps}
+        />
       )
     }
     if (type === 'TEXTAREA') {
       return (
-        <View>
-          <TextArea 
-            {...otherProps}
-          />
-        </View>
+        <TextArea 
+          {...otherProps}
+        />
       )
     }
     if (type === 'INT') {
       return (
-        <View>
-          <NumberInput 
-            name={name}
-            {...otherProps}
-          />
-        </View>
+        <NumberInput 
+          name={name}
+          {...otherProps}
+        />
       )
     }
     if (type === 'DOUBLE') {
@@ -77,6 +74,30 @@ export default class Control extends Taro.PureComponent<IControl> {
     if (type === 'BOOLEAN') {
       return (
         <Boolean 
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'CURRENCY') {
+      return (
+        <Currency 
+          name={name}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'PERCENTAGE') {
+      return (
+        <Percentage 
+          name={name}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'DATE') {
+      return (
+        <Date 
+          name={name}
           {...otherProps}
         />
       )

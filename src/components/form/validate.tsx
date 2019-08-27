@@ -1,6 +1,7 @@
 
 import { Irule } from './interface'
 import schema from 'async-validator'
+import { isNumberString } from './utils'
 
 // 必填校验
 const validateRequired = value => {
@@ -167,11 +168,22 @@ export const getValidateFunction = (rule: Irule) => {
 
 
 
-const handleWhitespace = () => {
 
-}
 
-export default (fieldName: string, rules: Array<{}>, fieldValue: any) => {
+
+
+
+
+
+
+
+
+
+
+// number 组件返回的数据类型是 string, 所以需要强行校验
+const numberType = ['INT', 'DOUBLE', 'CURRENCY', 'PERCENTAGE']
+export default (fieldName: string, rules: Array<{}>, fieldValue: any, type?: string) => {
+  const isNumber = type && numberType.includes(type)
   if (
     typeof fieldName !== 'string' ||
     !Array.isArray(rules) ||
@@ -196,13 +208,17 @@ export default (fieldName: string, rules: Array<{}>, fieldValue: any) => {
         ...rule,
         validator(rule, value, callback) {
           if (
+            isNumber ||
+            typeof value === 'number' 
+          ) {
+            if (!isNumberString(value)) return true
+            return rule.min <= Number(value)
+          }
+          if (
             typeof value === 'string' ||
             Array.isArray(value)
           ) {
             return rule.min <= value.length
-          }
-          if (typeof value === 'number') {
-            return rule.min <= value
           }
           return true
         }
@@ -213,15 +229,52 @@ export default (fieldName: string, rules: Array<{}>, fieldValue: any) => {
         ...rule,
         validator(rule, value, callback) {
           if (
+            isNumber ||
+            typeof value === 'number'
+          ) {
+            if (!isNumberString(value)) return true
+            return rule.max >= Number(value)
+          }
+          if (
             typeof value === 'string' ||
             Array.isArray(value)
           ) {
             return rule.max >= value.length
           }
-          if (typeof value === 'number') {
-            return rule.max >= value
+          return true
+        }
+      }
+    }
+    if (typeof rule.precision === 'number') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (
+            isNumber ||
+            typeof value === 'number'
+          ) {
+            const decimal = String(value).split(".")[1] || ""
+            const length = decimal.length
+            return rule.precision === length
           }
           return true
+        }
+      }
+    }
+    if (rule.type === 'integer') {
+      return {
+        ...rule,
+        validator(rule, value, callback) {
+          if (
+            typeof value === 'number' &&
+            value % 1 === 0
+          ) {
+            return true
+          }
+          if (isNumber) {
+            return value && isNumberString(value)
+          }
+          return false
         }
       }
     }

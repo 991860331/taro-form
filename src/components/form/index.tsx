@@ -144,8 +144,8 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 		const { fields } = this.props
 		const field = fields.find(item => item.fieldCode === fieldName)
 		if (!field) return Promise.resolve()
-		const { rules } =  field
-		return validator(fieldName, rules, fieldValue).then(errors => {
+		const { rules, child: {type} } =  field
+		return validator(fieldName, rules, fieldValue, type).then(errors => {
 			return errors
 		})
 	}
