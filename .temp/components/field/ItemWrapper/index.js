@@ -5,11 +5,13 @@ import { AtIcon } from "taro-ui";
 import './index.scss';
 export default class ItemWrapper extends Taro.PureComponent {
   render() {
-    const { children, contentText, placeholder, renderIcon, onClick, error } = this.props;
-    return <View className="item-wrapper at-input" onClick={onClick}>
-        {contentText && <Text className="flex1 text">{contentText}</Text>}
-        {!contentText && <Text className="flex1 placeholder">{placeholder}</Text>}
-        {error && <View className="icon-wrapper">
+    const { children, contentText, placeholder, renderIcon, onClick, error, onErrorClick } = this.props;
+    return <View className="item-wrapper at-input">
+        <View className="flex1" onClick={onClick}>
+          {contentText && <Text className="text">{contentText}</Text>}
+          {!contentText && <Text className="placeholder">{placeholder}</Text>}
+        </View>
+        {error && <View className="icon-wrapper" onClick={onErrorClick}>
             <AtIcon value="clock" size="16" color="#F00"></AtIcon>
           </View>}
         {!error && <View className="icon-wrapper">{renderIcon}</View>}
@@ -21,5 +23,6 @@ ItemWrapper.options = {
   styleIsolation: 'shared'
 };
 ItemWrapper.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
+  onErrorClick: () => {}
 };

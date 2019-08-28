@@ -8,6 +8,7 @@ import Percentage from './Percentage'
 import Currency from './Currency'
 import Boolean from './Boolean'
 import Date from './Date'
+import Timestamp from './Timestamp'
 import './index.scss'
 
 interface IControl {
@@ -57,15 +58,7 @@ export default class Control extends Taro.PureComponent<IControl> {
         />
       )
     }
-    if (type === 'INT') {
-      return (
-        <NumberInput 
-          name={name}
-          {...otherProps}
-        />
-      )
-    }
-    if (type === 'DOUBLE') {
+    if (type === 'INT' || type === 'DOUBLE') {
       return (
         <NumberInput 
           name={name}
@@ -99,6 +92,14 @@ export default class Control extends Taro.PureComponent<IControl> {
     if (type === 'DATE') {
       return (
         <Date 
+          label={label}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'TIMESTAMP') {
+      return (
+        <Timestamp 
           label={label}
           {...otherProps}
         />

@@ -8,6 +8,7 @@ import Percentage from "./Percentage/index";
 import Currency from "./Currency/index";
 import Boolean from "./Boolean/index";
 import Date from "./Date/index";
+import Timestamp from "./Timestamp/index";
 import './index.scss';
 export default class Control extends Taro.PureComponent {
   render() {
@@ -23,10 +24,7 @@ export default class Control extends Taro.PureComponent {
     if (type === 'TEXTAREA') {
       return <TextArea {...otherProps} />;
     }
-    if (type === 'INT') {
-      return <NumberInput name={name} {...otherProps} />;
-    }
-    if (type === 'DOUBLE') {
+    if (type === 'INT' || type === 'DOUBLE') {
       return <NumberInput name={name} {...otherProps} />;
     }
     if (type === 'BOOLEAN') {
@@ -40,6 +38,9 @@ export default class Control extends Taro.PureComponent {
     }
     if (type === 'DATE') {
       return <Date label={label} {...otherProps} />;
+    }
+    if (type === 'TIMESTAMP') {
+      return <Timestamp label={label} {...otherProps} />;
     }
     return <View className="unregistered">未注册的字段类型</View>;
   }

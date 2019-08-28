@@ -1,6 +1,6 @@
 export const fields = [
 	{
-		fieldCode: 'realName',
+		fieldCode: 'text',
 		label: "真实姓名",
 		rules: [
 			{
@@ -20,7 +20,7 @@ export const fields = [
       placeholder: '请输入您的真实姓名',
 		}
 	}, {
-		fieldCode: 'age',
+		fieldCode: 'int',
 		label: "年龄",
 		child: {
 			type: 'INT',
@@ -42,7 +42,7 @@ export const fields = [
 			}
 		]
 	}, {
-		fieldCode: 'gender',
+		fieldCode: 'boolean',
 		label: "性别",
 		child: {
 			type: 'BOOLEAN',
@@ -57,7 +57,7 @@ export const fields = [
 			]
 		},
 	}, {
-		fieldCode: 'height',
+		fieldCode: 'double',
 		label: "身高 cm",
 		child: {
 			type: 'DOUBLE',
@@ -124,6 +124,19 @@ export const fields = [
 			{
 				required: true,
 				message: '出生日期必填'
+			}
+		]
+	}, {
+		fieldCode: 'timestamp',
+		label: "上班时间",
+		child: {
+			type: 'TIMESTAMP',
+			placeholder: '请选择上班时间',
+		},
+		rules: [
+			{
+				required: true,
+				message: '上班时间必填'
 			}
 		]
 	}, {

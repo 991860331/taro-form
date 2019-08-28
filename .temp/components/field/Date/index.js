@@ -27,8 +27,8 @@ export default class Date extends Taro.PureComponent {
   }
   render() {
     const { isOpened } = this.state;
-    const { placeholder, label, value, error } = this.props;
-    return <ItemWrapper onClick={this.onClick} placeholder={placeholder} renderIcon={<AtIcon value="clock" size="16" color="#6190E8"></AtIcon>} contentText={value} error={error}>
+    const { placeholder, label, value, error, onErrorClick } = this.props;
+    return <ItemWrapper onClick={this.onClick} placeholder={placeholder} renderIcon={<AtIcon value="clock" size="16" color="#6190E8"></AtIcon>} contentText={value} error={error} onErrorClick={onErrorClick}>
         <AtActionSheet title={label} onClose={this.onClose} isOpened={isOpened} cancelText="关闭">
           <AtActionSheetItem>
             <AtCalendar isVertical currentDate={value} onSelectDate={this.onSelectDate} />

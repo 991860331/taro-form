@@ -35,7 +35,7 @@ export default class Date extends Taro.PureComponent<IDate> {
 
   render() {
     const { isOpened } = this.state
-    const { placeholder, label, value, error } = this.props
+    const { placeholder, label, value, error, onErrorClick } = this.props
     return (
       <ItemWrapper 
         onClick={this.onClick}
@@ -43,6 +43,7 @@ export default class Date extends Taro.PureComponent<IDate> {
         renderIcon={<AtIcon value='clock' size='16' color='#6190E8'></AtIcon>}
         contentText={value}
         error={error}
+        onErrorClick={onErrorClick}
       >
         <AtActionSheet 
           title={label}
