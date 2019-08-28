@@ -8,12 +8,18 @@ import Control from '../field'
 import './style/FormItem.scss'
 
 
+// 这些字段一直保持垂直布局
+const alwaysVerticalLayoutFields = ['TEXTAREA']
 export default class FormItem extends Taro.PureComponent<IFormItem> {
 
   static defaultProps = {
     field: {},
     error: [],
   }
+
+  static options = {
+    styleIsolation: 'shared'
+  } 
 
   state = {
     isOpened: false,
@@ -52,8 +58,8 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
     if (!child) return null
     const { type } = child
     const isError = error.length > 0
-    const isHorizontal = layout === 'horizontal'
     const showErrors = error.join("\n")
+    const isHorizontal = layout === 'horizontal' && !alwaysVerticalLayoutFields.includes(type)
     return (
       <View 
         className={cls("form-item", {
@@ -65,7 +71,6 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
           rules={rules}
           layout={layout}
           isError={isError} 
-          fieldType={type}
           hideRequiredMark={hideRequiredMark}
         >
           {label}

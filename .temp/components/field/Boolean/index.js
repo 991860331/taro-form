@@ -18,7 +18,7 @@ class AnonymousSFC extends Taro.Component {
     return <ErrorWrapper error={error} onErrorClick={onErrorClick}>
       <View className="boolean-wrapper">
         <Text className="selected-text">{selectedText}</Text>
-        <AtSwitch {...otherProps} checked={value} />
+        <AtSwitch {...otherProps} border={false} checked={value} />
       </View>
     </ErrorWrapper>;
   }

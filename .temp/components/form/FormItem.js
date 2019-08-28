@@ -6,6 +6,8 @@ import { AtToast } from "taro-ui";
 import FormItemLabel from './FormItemLabel';
 import Control from "../field/index";
 import './style/FormItem.scss';
+// 这些字段一直保持垂直布局
+const alwaysVerticalLayoutFields = ['TEXTAREA'];
 export default class FormItem extends Taro.PureComponent {
   constructor() {
     super(...arguments);
@@ -42,12 +44,12 @@ export default class FormItem extends Taro.PureComponent {
     if (!child) return null;
     const { type } = child;
     const isError = error.length > 0;
-    const isHorizontal = layout === 'horizontal';
     const showErrors = error.join("\n");
+    const isHorizontal = layout === 'horizontal' && !alwaysVerticalLayoutFields.includes(type);
     return <View className={cls("form-item", {
       horizontal: isHorizontal
     })}>
-        <FormItemLabel colon={colon} rules={rules} layout={layout} isError={isError} fieldType={type} hideRequiredMark={hideRequiredMark}>
+        <FormItemLabel colon={colon} rules={rules} layout={layout} isError={isError} hideRequiredMark={hideRequiredMark}>
           {label}
         </FormItemLabel>
         <View className="item-component">
@@ -62,4 +64,7 @@ export default class FormItem extends Taro.PureComponent {
 FormItem.defaultProps = {
   field: {},
   error: []
+};
+FormItem.options = {
+  styleIsolation: 'shared'
 };

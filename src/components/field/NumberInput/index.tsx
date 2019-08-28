@@ -13,6 +13,7 @@ export default (props) => {
       type='text'
       {...otherProps}
       value={formatedValue}
+      border={false}
       onChange={value => {
         if (typeof parser === 'function') {
           const parseredValue = parser(value)

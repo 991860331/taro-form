@@ -6,7 +6,7 @@ import './index.scss';
 export default class ItemWrapper extends Taro.PureComponent {
   render() {
     const { children, contentText, placeholder, renderIcon, onClick, error, onErrorClick } = this.props;
-    return <View className="item-wrapper at-input">
+    return <View className="item-wrapper">
         <View className="flex1" onClick={onClick}>
           {contentText && <Text className="text">{contentText}</Text>}
           {!contentText && <Text className="placeholder">{placeholder}</Text>}

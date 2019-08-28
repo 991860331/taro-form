@@ -8,6 +8,9 @@ import './index.scss';
 export default class Index extends Taro.PureComponent {
   constructor() {
     super(...arguments);
+    this.state = {
+      layout: 'horizontal'
+    };
     this.onFieldsChange = (name, values) => {};
     this.submit = () => {
       this.formInstance.submit().then(res => {
@@ -19,20 +22,26 @@ export default class Index extends Taro.PureComponent {
     this.reset = () => {
       this.formInstance.resetFields();
     };
+    this.toggleLayout = () => {
+      const { layout } = this.state;
+      this.setState({
+        layout: layout === 'horizontal' ? 'vertical' : 'horizontal'
+      });
+    };
     this.formInstance = null;
   }
   componentDidMount() {}
   render() {
+    const { layout } = this.state;
     return <View className="wrapper">
-				<CpForm colon hideRequiredMark={false} ref={instance => this.formInstance = instance} layout="vertical" fields={fields} initialValues={{
-        realName: "石松岩",
-        age: 18,
-        height: 177.50,
-        gender: true
-      }} onFieldsChange={this.onFieldsChange} />
 				<View className="buttons">
-					<AtButton type="primary" onClick={this.submit}>submit</AtButton>
+					<AtButton type="primary" onClick={this.toggleLayout}>{layout} 布局</AtButton>
+				</View>
+				<CpForm colon={false} hideRequiredMark={false} ref={instance => this.formInstance = instance} layout={layout} //vertical   horizontal
+      fields={fields} initialValues={{}} onFieldsChange={this.onFieldsChange} />
+				<View className="buttons">
 					<AtButton onClick={this.reset}>reset</AtButton>
+					<AtButton type="primary" onClick={this.submit}>submit</AtButton>
 				</View>
 			</View>;
   }
@@ -46,3 +55,6 @@ export default class Index extends Taro.PureComponent {
   }
 
 }
+Index.options = {
+  styleIsolation: 'shared'
+};

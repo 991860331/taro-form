@@ -8,6 +8,14 @@ import './index.scss'
 
 export default class Index extends Taro.PureComponent {
 
+	static options = {
+		styleIsolation: 'shared'
+	}
+
+	state = {
+		layout: 'horizontal',   // vertical   horizontal
+	}
+
 	componentDidMount() {
 		
 	}
@@ -30,29 +38,36 @@ export default class Index extends Taro.PureComponent {
 		this.formInstance.resetFields()
 	}
 
+	toggleLayout = () => {
+		const { layout } = this.state
+		this.setState({
+			layout: layout === 'horizontal' ? 'vertical': 'horizontal'
+		})
+	}
+
 	formInstance = null
 
 	render() {
+		const { layout } = this.state
 		return (
 			<View className="wrapper">
+				<View className="buttons">
+					<AtButton type='primary' onClick={this.toggleLayout}>{layout} 布局</AtButton>
+				</View>
 				<CpForm
-					colon
+					colon={false}
 					hideRequiredMark={false}
 					ref={instance => this.formInstance=instance}
-					layout="vertical"
+					layout={layout}  //vertical   horizontal
 					fields={fields}
 					initialValues={{
-						realName: "石松岩",
-						age: 18,
-						height: 177.50,
-						gender: true,
-						// date: '2019-09-12'
+						
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>
 				<View className="buttons">
-					<AtButton type='primary' onClick={this.submit}>submit</AtButton>
 					<AtButton onClick={this.reset}>reset</AtButton>
+					<AtButton type='primary' onClick={this.submit}>submit</AtButton>
 				</View>
 			</View>
 		)

@@ -265,14 +265,14 @@ export default (fieldName: string, rules: Array<{}>, fieldValue: any, type?: str
       return {
         ...rule,
         validator(rule, value, callback) {
+          if (isNumber && isNumberString(value)) {
+            return Number(value) % 1 === 0
+          }
           if (
             typeof value === 'number' &&
             value % 1 === 0
           ) {
             return true
-          }
-          if (isNumber) {
-            return value && isNumberString(value)
           }
           return false
         }
@@ -287,7 +287,6 @@ export default (fieldName: string, rules: Array<{}>, fieldValue: any, type?: str
     .then(res => {
       return []
     }).catch(error => {
-      console.log(error, 'err')
       return error.errors.map(err => err.message)
     })
 }

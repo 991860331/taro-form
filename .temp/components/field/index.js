@@ -19,7 +19,7 @@ export default class Control extends Taro.PureComponent {
     otherProps.onChange = onChange;
     otherProps.onErrorClick = onErrorClick;
     if (type === 'TEXT') {
-      return <AtInput name={name} type="text" {...otherProps} />;
+      return <AtInput border={false} name={name} type="text" {...otherProps} />;
     }
     if (type === 'TEXTAREA') {
       return <TextArea {...otherProps} />;

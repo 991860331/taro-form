@@ -1,5 +1,10 @@
+@import "~taro-ui/dist/style/mixins/libs/hairline.scss";
+
 .form-item {
-  margin-bottom: 24px;
+  @include hairline-bottom(#d6e4ef);
+  &::after {
+    z-index: 1;
+  }
 }
 
 .item-component {
@@ -11,6 +16,7 @@
 
 .horizontal {
   display: flex;
+  align-items: baseline;
 }
 
 

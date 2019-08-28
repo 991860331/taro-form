@@ -45,6 +45,7 @@ export default class Control extends Taro.PureComponent<IControl> {
     if (type === 'TEXT') {
       return (
         <AtInput 
+          border={false}
           name={name}
           type='text'
           {...otherProps}

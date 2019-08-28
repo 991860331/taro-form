@@ -3,28 +3,27 @@
   display: flex;
   height: 100%;
   align-items: center;
-  width: 170px;
-  position: relative;
+  width: 196px;
   font-size: 30px;
 }
 
-.topPlacement {
-  align-items: stretch;
+.label-wrapper {
+  position: relative;
 }
 
 .vertical {
-  margin-bottom: 12px;
+  margin-top: 24px;
 }
 
 .required-star {
   color: red;
   display: inline-block;
   position: absolute;
-  left: -20px;
-  top: -6px;
+  left: -18px;
+  top: -2px;
 }
 
-.error {
+.errorLabel {
   color: red;
 }
 

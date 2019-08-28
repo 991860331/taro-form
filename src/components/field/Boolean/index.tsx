@@ -22,6 +22,7 @@ export default (props) => {
         <Text className="selected-text">{selectedText}</Text>
         <AtSwitch 
           {...otherProps} 
+          border={false}
           checked={value}
         />
       </View>

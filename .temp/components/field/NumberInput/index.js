@@ -10,7 +10,7 @@ class AnonymousSFC extends Taro.Component {
     const { name, value, onChange, formatter, parser, ...otherProps } = props;
     const isFormatter = typeof formatter === 'function';
     const formatedValue = isFormatter ? formatter(value) : value;
-    return <AtInput name={name} type="text" {...otherProps} value={formatedValue} onChange={value => {
+    return <AtInput name={name} type="text" {...otherProps} value={formatedValue} border={false} onChange={value => {
       if (typeof parser === 'function') {
         const parseredValue = parser(value);
         onChange(parseredValue);

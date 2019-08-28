@@ -26,10 +26,9 @@ interface Ifield {
 
 interface IFormItemLabel {
   rules: Array;
-  isError: boolean;
-  fieldType: string;
   colon: boolean;
   layout: 'horizontal'|'vertical';
+  isError: boolean;
   hideRequiredMark?: boolean;
 }
 

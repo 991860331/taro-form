@@ -3,6 +3,10 @@
 .wrapper {
   background: white;
   min-height: 100vh;
+  padding: 56px 0;
+  .at-button {
+    margin-bottom: 24px;
+  }
 }
 .buttons {
   margin: 0 48px;
