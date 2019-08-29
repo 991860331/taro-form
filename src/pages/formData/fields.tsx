@@ -1,4 +1,4 @@
-export const fields = [
+export default [
 	{
 		fieldCode: 'TEXT',
 		label: "真实姓名",

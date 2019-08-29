@@ -24,7 +24,7 @@ const _taroHistory = createHistory({
   mode: "hash",
   basename: "/",
   customRoutes: {},
-  firstPagePath: "/pages/Form/index"
+  firstPagePath: "/pages/NewForm/index"
 });
 
 mountApis(_taroHistory);
@@ -53,8 +53,8 @@ class App extends Component {
     return <Provider store={store}>
                   
               <Router history={_taroHistory} routes={[{
-        path: '/pages/Form/index',
-        componentLoader: () => import( /* webpackChunkName: "Form_index" */'./pages/Form/index'),
+        path: '/pages/NewForm/index',
+        componentLoader: () => import( /* webpackChunkName: "NewForm_index" */'./pages/NewForm/index'),
         isIndex: true
       }]} customRoutes={{}} />
               
@@ -63,7 +63,7 @@ class App extends Component {
   config = {
     pages: [
     // 'pages/index/index',
-    "/pages/Form/index"],
+    "/pages/NewForm/index"],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#ff0000',

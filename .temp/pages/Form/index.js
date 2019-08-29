@@ -3,7 +3,7 @@ import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
 import { AtButton } from 'taro-ui';
 import CpForm from "../../components/form/index";
-import { fields } from './fields';
+import fields from '../formData/fields';
 import './index.scss';
 export default class Index extends Taro.PureComponent {
   constructor() {
@@ -45,15 +45,6 @@ export default class Index extends Taro.PureComponent {
 				</View>
 			</View>;
   }
-
-  componentDidShow() {
-    super.componentDidShow && super.componentDidShow();
-  }
-
-  componentDidHide() {
-    super.componentDidHide && super.componentDidHide();
-  }
-
 }
 Index.options = {
   styleIsolation: 'shared'

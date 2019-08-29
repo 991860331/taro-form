@@ -1,10 +1,9 @@
 import Taro from '@tarojs/taro'
 import { View, Block, Text } from '@tarojs/components'
 import { AtInput, AtForm, AtButton } from 'taro-ui'
-import CpForm from '@/components/form'
+import CpForm from '@/components/cp-form'
 import fields from '../formData/fields'
 import './index.scss'
-
 
 export default class Index extends Taro.PureComponent {
 
@@ -25,17 +24,18 @@ export default class Index extends Taro.PureComponent {
 	}
 
 	submit = () => {
-		this.formInstance.submit()
-			.then(res => {
-				console.log('submitdata', res)
-			})
-			.catch(err => {
-				console.log('submiterr', err)
-			})
+    console.log(this.formInstance.current)
+		// this.formInstance.submit()
+		// 	.then(res => {
+		// 		console.log('submitdata', res)
+		// 	})
+		// 	.catch(err => {
+		// 		console.log('submiterr', err)
+		// 	})
 	}
 
 	reset = () => {
-		this.formInstance.resetFields()
+		// this.formInstance.resetFields()
 	}
 
 	toggleLayout = () => {
@@ -45,7 +45,7 @@ export default class Index extends Taro.PureComponent {
 		})
 	}
 
-	formInstance = null
+	formInstance = Taro.createRef()
 
 	render() {
 		const { layout } = this.state
@@ -57,7 +57,7 @@ export default class Index extends Taro.PureComponent {
 				<CpForm
 					colon={false}
 					hideRequiredMark={false}
-					ref={instance => this.formInstance=instance}
+					ref={this.formInstance}
 					layout={layout}  //vertical   horizontal
 					fields={fields}
 					initialValues={{

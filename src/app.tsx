@@ -28,7 +28,7 @@ class App extends Component {
   config: Config = {
     pages: [
       // 'pages/index/index',
-      'pages/Form/index',
+      'pages/NewForm/index',
     ],
     window: {
       backgroundTextStyle: 'dark', 
