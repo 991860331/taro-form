@@ -1,0 +1,19 @@
+
+.form-item {
+  
+}
+
+.form-item-horizontal {
+  display: flex;
+  align-items: center;
+}
+
+.form-item-vertical {
+  &-label {
+    margin-bottom: 12px;
+  }
+}
+
+.hasError {
+  color: red;
+}

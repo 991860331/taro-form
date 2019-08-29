@@ -54,17 +54,19 @@ export default class Index extends Taro.PureComponent {
 				<View className="buttons">
 					<AtButton type='primary' onClick={this.toggleLayout}>{layout} 布局</AtButton>
 				</View>
-				<CpForm
-					colon={false}
-					hideRequiredMark={false}
-					ref={this.formInstance}
-					layout={layout}  //vertical   horizontal
-					fields={fields}
-					initialValues={{
-						
-					}}
-					onFieldsChange={this.onFieldsChange}
-				/>
+				<View className="form">
+					<CpForm
+						colon={true}
+						hideRequiredMark={false}
+						ref={this.formInstance}
+						layout={layout}  //vertical   horizontal
+						fields={fields}
+						initialValues={{
+							
+						}}
+						onFieldsChange={this.onFieldsChange}
+					/>
+				</View>
 				<View className="buttons">
 					<AtButton onClick={this.reset}>reset</AtButton>
 					<AtButton type='primary' onClick={this.submit}>submit</AtButton>

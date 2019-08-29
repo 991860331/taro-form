@@ -1,0 +1,27 @@
+
+@import "~taro-ui/dist/style/mixins/libs/hairline.scss";
+
+// $cls-prefix: 'form-item-wraper';
+
+.form-item-wrapper {
+  padding: 22px 0px;
+  font-size: 32px;
+  min-height: 1.4rem;
+  display: flex;
+  align-items: center;
+  padding-right: 16px;
+  &-children {
+    flex: 1;
+  }
+  &-tools {
+    width: 60px;
+    text-align: right;
+  }
+  &-icon {
+    
+  }
+}
+
+.form-item-wrapper-border {
+  @include hairline-bottom(#d6e4ef);
+}
