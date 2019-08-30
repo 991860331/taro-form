@@ -6,5 +6,8 @@ export const isNumberString = str => {
   }
   return true;
 };
+export const isAvailableValue = value => {
+  return value !== null && value !== undefined && value !== '';
+};
 export const formatLayoutFields = () => {};
 export const formatSubmitData = () => {};

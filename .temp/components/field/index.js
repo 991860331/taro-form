@@ -1,28 +1,32 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
-import { AtInput } from 'taro-ui';
-import TextArea from "./TextArea/index";
+import { AtInput, AtTextarea } from 'taro-ui';
 import NumberInput from "./NumberInput/index";
 import Percentage from "./Percentage/index";
 import Currency from "./Currency/index";
 import Boolean from "./Boolean/index";
 import Date from "./Date/index";
+import CpRadio from "./Radio/index";
+import Multiselect from "./Multiselect/index";
 import Timestamp from "./Timestamp/index";
 import './index.scss';
+// 大量的 if 但是没办法
 export default class Control extends Taro.PureComponent {
+  // static options = {
+  //   styleIsolation: 'shared'
+  // } 
   render() {
-    const { child, onChange, label, name, value, isError, onErrorClick } = this.props;
+    const { child, onChange, label, name, value } = this.props;
     const { type, ...otherProps } = child;
-    otherProps.error = isError;
     otherProps.value = value;
     otherProps.onChange = onChange;
-    otherProps.onErrorClick = onErrorClick;
     if (type === 'TEXT') {
       return <AtInput border={false} name={name} type="text" {...otherProps} />;
     }
     if (type === 'TEXTAREA') {
-      return <TextArea {...otherProps} />;
+      const value = otherProps.value || "";
+      return <AtTextarea {...otherProps} value={value} />;
     }
     if (type === 'INT' || type === 'DOUBLE') {
       return <NumberInput name={name} {...otherProps} />;
@@ -42,13 +46,19 @@ export default class Control extends Taro.PureComponent {
     if (type === 'TIMESTAMP') {
       return <Timestamp label={label} {...otherProps} />;
     }
+    if (type === 'RADIO') {
+      return <CpRadio label={label} {...otherProps} />;
+    }
+    if (type === 'MULTISELECT') {
+      return <Multiselect label={label} {...otherProps} />;
+    }
+    if (type === 'RADIOTREE') {
+      return 123;
+    }
     return <View className="unregistered">未注册的字段类型</View>;
   }
 }
 Control.defaultProps = {
   child: {},
   onChange: () => {}
-};
-Control.options = {
-  styleIsolation: 'shared'
 };

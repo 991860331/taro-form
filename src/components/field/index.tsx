@@ -1,28 +1,27 @@
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtInput, AtTextarea, AtToast } from 'taro-ui'
+import { View, Text, RichText } from '@tarojs/components'
+import { AtInput, AtTextarea, AtToast, AtRadio } from 'taro-ui'
 import { Ichild } from '../form/interface'
-import TextArea from './TextArea'
 import NumberInput from './NumberInput'
 import Percentage from './Percentage'
 import Currency from './Currency'
 import Boolean from './Boolean'
 import Date from './Date'
+import CpRadio from './Radio'
+import Multiselect from './Multiselect'
 import Timestamp from './Timestamp'
 import './index.scss'
 
 interface IControl {
-  name: string;
   child: Ichild;
   value: any;
-  isError: boolean;
-  onChange: Function;
-  onErrorClick: Function;
+  name?: string;
   label?: string;
-  [otherProps: string]: any;
+  onChange?: Function;
 }
 
 
+// 大量的 if 但是没办法
 
 export default class Control extends Taro.PureComponent<IControl> {
 
@@ -31,18 +30,16 @@ export default class Control extends Taro.PureComponent<IControl> {
     onChange: () => {},
   }
 
-  static options = {
-    styleIsolation: 'shared'
-  } 
+  // static options = {
+  //   styleIsolation: 'shared'
+  // } 
 
   render() {
-    const { child, onChange, label, name, value, isError, onErrorClick } = this.props
+    const { child, onChange, label, name, value } = this.props
     const { type, ...otherProps } = child
-    otherProps.error = isError
     otherProps.value = value
     otherProps.onChange = onChange
-    otherProps.onErrorClick = onErrorClick
-    if (type === 'TEXT') {
+    if (type === 'TEXT' || type === 'URL' || type === 'EMAIL') {
       return (
         <AtInput 
           border={false}
@@ -53,10 +50,9 @@ export default class Control extends Taro.PureComponent<IControl> {
       )
     }
     if (type === 'TEXTAREA') {
+      const value = otherProps.value || ""
       return (
-        <TextArea 
-          {...otherProps}
-        />
+        <AtTextarea {...otherProps} value={value} />
       )
     }
     if (type === 'INT' || type === 'DOUBLE') {
@@ -105,6 +101,59 @@ export default class Control extends Taro.PureComponent<IControl> {
           {...otherProps}
         />
       )
+    }
+    if (type === 'RADIO') {
+      return (
+        <CpRadio
+          label={label}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'MULTISELECT') {
+      return (
+        <Multiselect
+          label={label}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'RADIOTREE') {
+      return (
+        <Multiselect
+          label={label}
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'CELLPHONE') {
+      return (
+        <AtInput 
+          border={false}
+          name={name}
+          type='number'
+          {...otherProps}
+        />
+      )
+    }
+    if (type === 'RICHTEXT') {
+      return <RichText nodes={[{
+        name: 'div',
+        attrs: {
+          class: 'div_class',
+          style: 'line-height: 60px; color: blue;'
+        },
+        children: [{
+          type: 'text',
+          text: 'Hello World!'
+        }]
+      }]} />
+    }
+    if (type === 'MAP') {
+      return <View>map</View>
+    }
+    if (type === 'IMAGE_SINGLE') {
+      return <View>IMAGE_SINGLE</View>
     }
     return <View className="unregistered">未注册的字段类型</View>
   }

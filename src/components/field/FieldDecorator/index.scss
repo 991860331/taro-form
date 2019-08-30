@@ -1,0 +1,12 @@
+@import "../../form/style/utils.scss";
+
+$cls-prefix: 'field-decorator';
+$placeholder-color: #7D8189;
+
+
+.#{$cls-prefix} {
+  
+  &-placeholder {
+    color: $placeholder-color;
+  }
+}

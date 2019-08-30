@@ -1,15 +1,20 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtCalendar, AtActionSheet, AtActionSheetItem, AtIcon } from "taro-ui"
+import { AtRadio, AtActionSheet, AtActionSheetItem } from "taro-ui"
 import FieldDecorator from '../FieldDecorator'
 import { actionSheetCancelText } from '../utils'
 
-interface IDate {
+interface IRadio {
   label?: string;
+  options: [];
   placeholder?: string;
   [otherProps: string]: any;
 }
-export default class Date extends Taro.PureComponent<IDate> {
+export default class Radio extends Taro.PureComponent<IRadio> {
+
+  static defaultProps = {
+    options: [],
+  }
 
   state = {
     visible: false,
@@ -27,20 +32,28 @@ export default class Date extends Taro.PureComponent<IDate> {
     })
   }
 
-  onSelectDate = ({value}) => {
+  handleChange = (value) => {
     const { onChange } = this.props
-    const { start } = value
-    onChange(start)
+    onChange(value)
     this.onClose()
+  }
+
+  getContent(): string {
+    const { options, value } = this.props
+    if (!Array.isArray(options)) return ""
+    const option = options.find((option: {value: any, label: string}) => option.value === value)
+    if (!option) return ""
+    return option.label
   }
 
   render() {
     const { visible } = this.state
-    const { placeholder, label, value } = this.props
+    const { placeholder, label, value, options } = this.props
+    const content = this.getContent()
     return (
       <FieldDecorator 
         onClick={this.handleVisible}
-        content={value}
+        content={content}
         placeholder={placeholder}
       >
         <AtActionSheet 
@@ -50,10 +63,10 @@ export default class Date extends Taro.PureComponent<IDate> {
           cancelText={actionSheetCancelText} 
         >
           <AtActionSheetItem>
-            <AtCalendar 
-              isVertical
-              currentDate={value}
-              onSelectDate={this.onSelectDate}
+            <AtRadio
+              options={options}
+              value={value}
+              onClick={this.handleChange}
             />
           </AtActionSheetItem>
         </AtActionSheet>

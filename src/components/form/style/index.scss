@@ -1,4 +1,6 @@
-.cp-form {
-  padding: 48px;
+$cls-prefix: 'cp-form';
+
+.#{$cls-prefix} {
+  padding: 0 30px;
 }
 

@@ -5,13 +5,14 @@ import { ICpForm } from './interface'
 import validator from './validate'
 import './style/index.scss'
 
-
-class CpForm extends Taro.PureComponent<ICpForm> {
+const clsPrefix = 'cp-form'
+export default class Index extends Taro.PureComponent<ICpForm> {
 
 	static defaultProps = {
 		colon: true,
 		layout: 'horizontal',
 		fields: [],
+		border: true,
 		hideRequiredMark: false,
 	}
 
@@ -31,6 +32,21 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 	setInitialValues() {
 		const { initialValues } = this.props
 		this.setFieldsValue(initialValues)
+	}
+
+	setFieldsValue = (fieldsValue, callback?: Function) => {
+		if (!fieldsValue || typeof fieldsValue !== 'object') return
+		const { fieldValues } = this.state
+		this.setState({
+			fieldValues: {
+				...fieldValues,
+				...fieldsValue,
+			}
+		}, () => {
+			if (typeof callback === 'function') {
+				callback()
+			}
+		})
 	}
 
 	onChange = (fieldName: string, value: any) => {
@@ -72,21 +88,6 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 		}
 		this.setState({
 			fieldValues: {},
-		})
-	}
-
-	setFieldsValue = (fieldsValue, callback?: Function) => {
-		if (!fieldsValue || typeof fieldsValue !== 'object') return
-		const { fieldValues } = this.state
-		this.setState({
-			fieldValues: {
-				...fieldValues,
-				...fieldsValue,
-			}
-		}, () => {
-			if (typeof callback === 'function') {
-				callback()
-			}
 		})
 	}
 
@@ -151,23 +152,24 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 	}
 
 	render() {
-		const { fields, layout, colon, hideRequiredMark } = this.props
+		const { fields, layout, colon, hideRequiredMark, border } = this.props
 		const { fieldValues, fieldErrors } = this.state
 		return (
-			<View className="cp-form">
+			<View className={clsPrefix}>
 				{fields.map(field => {
 					if (!field) return null
 					const { fieldCode } = field
 					const value = fieldValues[fieldCode]
-					const error = fieldErrors[fieldCode]
+					const errors = fieldErrors[fieldCode]
 					return (
 						<FormItem 
 							key={fieldCode} 
 							colon={colon}
 							field={field} 
 							value={value}
-							error={error}
+							errors={errors}
 							layout={layout}
+							border={border}
 							onChange={this.onChange}
 							hideRequiredMark={hideRequiredMark}
 						/>
@@ -177,6 +179,4 @@ class CpForm extends Taro.PureComponent<ICpForm> {
 	}
 }
 
-
-export default CpForm
 

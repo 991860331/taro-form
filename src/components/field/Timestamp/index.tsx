@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro'
 import { View, Picker } from '@tarojs/components'
 import { AtCalendar, AtActionSheet, AtActionSheetItem, AtIcon } from "taro-ui"
-import ItemWrapper from '../ItemWrapper'
+import FieldDecorator from '../FieldDecorator'
+import { actionSheetCancelText } from '../utils'
 
 
 // Picker 组件暂时没有发现受控的打开方式，所以将 AtCalendar 放在 Picker 组件内，通过冒泡的方式自动打开
@@ -61,31 +62,28 @@ export default class Timestamp extends Taro.PureComponent<ITimestamp> {
       date: null,
     }
     if (value) {
-      const t = value.split(" ")
-      res.date = t[0] || null
-      res.time = t[1] || null
+      const [date, time] = value.split(" ")
+      res.date = date || null
+      res.time = time || null
     }
     return res
   }
 
   render() {
     const { isOpened, isVisibleDate } = this.state
-    const { placeholder, label, value, error, onErrorClick } = this.props
+    const { placeholder, label, value } = this.props
     const { time, date } = this.getValue()
     return (
-      <ItemWrapper 
+      <FieldDecorator 
         onClick={this.onClick}
+        content={value}
         placeholder={placeholder}
-        renderIcon={<AtIcon value='clock' size='16' color='#6190E8'></AtIcon>}
-        contentText={value}
-        error={error}
-        onErrorClick={onErrorClick}
       >
         <AtActionSheet 
           title={label}
           onClose={this.onClose}
           isOpened={isOpened}
-          cancelText='关闭' 
+          cancelText={actionSheetCancelText} 
         >
           <AtActionSheetItem>
             <Picker 
@@ -102,7 +100,7 @@ export default class Timestamp extends Taro.PureComponent<ITimestamp> {
             </Picker>
           </AtActionSheetItem>
         </AtActionSheet>
-      </ItemWrapper>
+      </FieldDecorator>
     )
   }
 }

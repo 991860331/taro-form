@@ -1,21 +1,22 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
-import { AtCalendar, AtActionSheet, AtActionSheetItem, AtIcon } from "taro-ui";
-import ItemWrapper from "../ItemWrapper/index";
+import { AtCalendar, AtActionSheet, AtActionSheetItem } from "taro-ui";
+import FieldDecorator from "../FieldDecorator/index";
+import { actionSheetCancelText } from '../utils';
 export default class Date extends Taro.PureComponent {
   constructor() {
     super(...arguments);
     this.state = {
-      isOpened: false
+      visible: false
     };
-    this.onClick = () => {
+    this.handleVisible = () => {
       this.setState({
-        isOpened: true
+        visible: true
       });
     };
     this.onClose = () => {
       this.setState({
-        isOpened: false
+        visible: false
       });
     };
     this.onSelectDate = ({ value }) => {
@@ -26,14 +27,14 @@ export default class Date extends Taro.PureComponent {
     };
   }
   render() {
-    const { isOpened } = this.state;
-    const { placeholder, label, value, error, onErrorClick } = this.props;
-    return <ItemWrapper onClick={this.onClick} placeholder={placeholder} renderIcon={<AtIcon value="clock" size="16" color="#6190E8"></AtIcon>} contentText={value} error={error} onErrorClick={onErrorClick}>
-        <AtActionSheet title={label} onClose={this.onClose} isOpened={isOpened} cancelText="关闭">
+    const { visible } = this.state;
+    const { placeholder, label, value } = this.props;
+    return <FieldDecorator onClick={this.handleVisible} content={value} placeholder={placeholder}>
+        <AtActionSheet title={label} onClose={this.onClose} isOpened={visible} cancelText={actionSheetCancelText}>
           <AtActionSheetItem>
             <AtCalendar isVertical currentDate={value} onSelectDate={this.onSelectDate} />
           </AtActionSheetItem>
         </AtActionSheet>
-      </ItemWrapper>;
+      </FieldDecorator>;
   }
 }

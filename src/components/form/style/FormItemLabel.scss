@@ -1,33 +1,38 @@
-.item-label {
+
+@import "~taro-ui/dist/style/mixins/libs/hairline.scss";
+@import "./utils.scss";
+
+
+
+$label-help: #6190E8;
+$cls-prefix: 'cp-form-item-label';
+
+.#{$cls-prefix} {
+  width: 198px;
   padding-right: 24px;
-  display: flex;
-  height: 100%;
-  align-items: center;
-  width: 196px;
-  font-size: 30px;
+  &-required-star {
+    color: red;
+    display: inline-block;
+    position: absolute;
+    left: -16px;
+    top: -2px;
+  }
+  &-colon {
+    display: inline-block;
+    transform: translate(6px, -2px);
+  }
+  &-help {
+    @include hairline-bottom($label-help, dashed);
+  }
+  &-help-view {
+    padding: 16px;
+    text-align: left;
+    color: black;
+  }
 }
 
-.label-wrapper {
-  position: relative;
-}
 
-.vertical {
-  margin-top: 24px;
-}
-
-.required-star {
-  color: red;
-  display: inline-block;
-  position: absolute;
-  left: -18px;
-  top: -2px;
-}
-
-.errorLabel {
-  color: red;
-}
-
-.colon {
-  display: inline-block;
-  transform: translate(6px, -2px);
+.#{$cls-prefix}-vertical {
+  width: 100%;
+  padding-bottom: 12px;
 }

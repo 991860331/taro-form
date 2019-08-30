@@ -1,9 +1,9 @@
 import Taro from "@tarojs/taro-h5";
 import Nerv from "nervjs";
-import { Text, View } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { AtSwitch } from 'taro-ui';
-import ErrorWrapper from "../ErrorWrapper/index";
 import './index.scss';
+const clsPrefix = 'boolean-wrapper';
 
 class AnonymousSFC extends Taro.Component {
   render() {
@@ -15,12 +15,9 @@ class AnonymousSFC extends Taro.Component {
     }
     const selectedOption = options.find(option => option.value === value);
     const selectedText = selectedOption ? selectedOption.title : "";
-    return <ErrorWrapper error={error} onErrorClick={onErrorClick}>
-      <View className="boolean-wrapper">
-        <Text className="selected-text">{selectedText}</Text>
-        <AtSwitch {...otherProps} border={false} checked={value} />
-      </View>
-    </ErrorWrapper>;
+    return <View className={clsPrefix}>
+      <AtSwitch {...otherProps} border={false} checked={value} title={selectedText} />
+    </View>;
   }
 
 }

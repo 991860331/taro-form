@@ -2,35 +2,62 @@ import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import cls from 'classnames'
 import { IFormItemLabel } from './interface'
+import { AtActionSheet, AtActionSheetItem } from "taro-ui"
 import './style/FormItemLabel.scss'
 
-
+const clsPrefix = 'cp-form-item-label'
 export default class FormItemLabel extends Taro.PureComponent<IFormItemLabel> {
 
   static defaultProps = {
     rules: [],
-    isError: false,
+  }
+
+  state = {
+    visible: false,
+  }
+
+  handleViewHelp = (): void => {
+    this.setState({
+      visible: true,
+    })
+  }
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    })
   }
 
   render() {
-    const { children, rules, isError, colon, hideRequiredMark, layout } = this.props
-    const isRequired = rules.find(rule => rule.required)
-    const isVertical = layout === 'vertical' 
+    const { visible } = this.state
+    const { children, rules, colon, hideRequiredMark, isHorizontal, help } = this.props
+    const isRequired: boolean = rules.find(rule => rule.required) && !hideRequiredMark
     return (
-      <View className={cls("item-label", {
-          vertical: isVertical,
-          errorLabel: isError,
-        })}
-      >
-        <Text className="label-wrapper">
-          {isRequired&&!hideRequiredMark&&(
-            <Text className="required-star">*</Text>
+      <View>
+        <View className={cls(clsPrefix, {
+          [`${clsPrefix}-vertical`]: !isHorizontal,
+        })}>
+          <Text 
+            onClick={this.handleViewHelp}
+            className={cls("position-relative", {
+              [`${clsPrefix}-help`]: help
+            })}
+          >
+            {isRequired&&(
+              <Text className={`${clsPrefix}-required-star`}>*</Text>
+            )}
+            {children}
+          </Text>
+          {colon&&(
+            <Text className={`${clsPrefix}-colon`}>:</Text>
           )}
-          {children}
-        </Text>
-        {colon&&(
-          <Text className="colon">:</Text>
-        )}
+        </View>
+        <AtActionSheet 
+          onClose={this.onClose}
+          isOpened={visible}
+        >
+          <View className={`${clsPrefix}-help-view`}>{help}</View>
+        </AtActionSheet>
       </View>
     )
   }

@@ -7,7 +7,9 @@ export const isNumberString = (str: string) :boolean => {
   return true
 }
 
-
+export const isAvailableValue = (value: any) :boolean => {
+  return value !== null && value !== undefined && value !== ''
+}
 
 export const formatLayoutFields = () => {
 

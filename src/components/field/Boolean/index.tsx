@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro'
 import { Text, View } from '@tarojs/components'
 import { AtSwitch } from 'taro-ui'
-import ErrorWrapper from '../ErrorWrapper'
 import './index.scss'
+
+const clsPrefix = 'boolean-wrapper'
 
 export default (props) => {
   const { error, onErrorClick, options, value=false, ...otherProps } = props
@@ -17,15 +18,13 @@ export default (props) => {
   const selectedOption = options.find(option => option.value === value)
   const selectedText = selectedOption ? selectedOption.title: ""
   return (
-    <ErrorWrapper error={error} onErrorClick={onErrorClick}>
-      <View className="boolean-wrapper">
-        <Text className="selected-text">{selectedText}</Text>
-        <AtSwitch 
-          {...otherProps} 
-          border={false}
-          checked={value}
-        />
-      </View>
-    </ErrorWrapper>
+    <View className={clsPrefix}>
+      <AtSwitch 
+        {...otherProps} 
+        border={false}
+        checked={value}
+        title={selectedText}
+      />
+    </View>
   )
 }

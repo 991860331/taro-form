@@ -2,6 +2,7 @@ export default [
 	{
 		fieldCode: 'TEXT',
 		label: "真实姓名",
+		help: "请填写阁下的尊姓大名请填写阁下的尊姓大名请填写阁下的尊姓大名请填写阁下的尊姓大名请填写阁下的尊姓大名请填写阁下的尊姓大名请填写阁下的尊姓大名",
 		rules: [
 			{
 				required: true,
@@ -145,6 +146,11 @@ export default [
 		child: {
 			type: 'RADIO',
 			placeholder: '请选择职位',
+			options: [
+				{ label: '初级前端工程师', value: 'option1'},
+				{ label: '中级前端工程师', value: 'option2' },
+				{ label: '前端打字员', value: 'option3'}
+			]
 		},
 		rules: [
 			{
@@ -158,6 +164,13 @@ export default [
 		child: {
 			type: 'MULTISELECT',
 			placeholder: '请选择爱好',
+			options: [
+				{ label: 'LOL', value: 'lol'},
+				{ label: 'DOTA', value: 'dota' },
+				{ label: '王者荣耀', value: 'laji'},
+				{ label: '幸运连连看', value: 'lian'},
+				{ label: '植物大战僵尸', value: 'xiix'},
+			]
 		},
 		rules: [
 			{
@@ -309,6 +322,7 @@ export default [
 	{
 		fieldCode: 'textarea',
 		label: "反馈",
+		isAlwaysVertical: true,
 		child: {
 			type: 'TEXTAREA',
 			placeholder: '你的问题是...',

@@ -37,14 +37,24 @@ export default class Index extends Taro.PureComponent {
 				<View className="buttons">
 					<AtButton type="primary" onClick={this.toggleLayout}>{layout} 布局</AtButton>
 				</View>
-				<CpForm colon={false} hideRequiredMark={false} ref={instance => this.formInstance = instance} layout={layout} //vertical   horizontal
-      fields={fields} initialValues={{}} onFieldsChange={this.onFieldsChange} />
+				<CpForm colon={false} border={true} hideRequiredMark={false} ref={instance => this.formInstance = instance} layout={layout} fields={fields} initialValues={{
+        textarea: 'nihao'
+      }} onFieldsChange={this.onFieldsChange} />
 				<View className="buttons">
 					<AtButton onClick={this.reset}>reset</AtButton>
 					<AtButton type="primary" onClick={this.submit}>submit</AtButton>
 				</View>
 			</View>;
   }
+
+  componentDidShow() {
+    super.componentDidShow && super.componentDidShow();
+  }
+
+  componentDidHide() {
+    super.componentDidHide && super.componentDidHide();
+  }
+
 }
 Index.options = {
   styleIsolation: 'shared'

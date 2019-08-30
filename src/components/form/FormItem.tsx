@@ -1,20 +1,19 @@
 import Taro from '@tarojs/taro'
 import { View, Text, Block } from '@tarojs/components'
 import cls from 'classnames'
-import { AtToast } from "taro-ui"
-import FormItemLabel from './FormItemLabel'
 import { IFormItem } from './interface'
 import Control from '../field'
+import FormItemLabel from './FormItemLabel'
+import FormItemWrapper from './FormItemWrapper'
 import './style/FormItem.scss'
 
 
-// 这些字段一直保持垂直布局
-const alwaysVerticalLayoutFields = ['TEXTAREA']
+const clsPrefix = 'cp-form-item'
 export default class FormItem extends Taro.PureComponent<IFormItem> {
 
   static defaultProps = {
     field: {},
-    error: [],
+    errors: [],
   }
 
   static options = {
@@ -22,7 +21,7 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
   } 
 
   state = {
-    isOpened: false,
+
   }
 
   onChange = (value, event) => {
@@ -36,66 +35,50 @@ export default class FormItem extends Taro.PureComponent<IFormItem> {
     onChange(fieldCode, fieldValue)
   }
 
-  onErrorClick = e => {
-    if (e) {
-      e.preventDefault()
-    }
-    this.setState({
-      isOpened: true
-    })
-  }
-
-  onToastClose = () => {
-    this.setState({
-      isOpened: false
-    })
+  onClear = () => {
+    const { field, onChange } = this.props
+    const { fieldCode } = field
+    onChange(fieldCode, null)
   }
 
   render() {
-    const { isOpened } = this.state
-    const { field, value, error, hideRequiredMark, colon, layout } = this.props
-    const { fieldCode, label, rules, child } = field
+    const { field, value, errors, hideRequiredMark, colon, layout, border } = this.props
+    const { fieldCode, label, rules, child, isAlwaysVertical, clear, help } = field
     if (!child) return null
-    const { type } = child
-    const isError = error.length > 0
-    const showErrors = error.join("\n")
-    const isHorizontal = layout === 'horizontal' && !alwaysVerticalLayoutFields.includes(type)
+    const isHorizontal = layout === 'horizontal' && !isAlwaysVertical
     return (
-      <View 
-        className={cls("form-item", {
-          horizontal: isHorizontal
-        })}
+      <FormItemWrapper 
+        clear={clear}
+        value={value}
+        errors={errors}
+        border={border}
+        onClear={this.onClear}
       >
-        <FormItemLabel 
-          colon={colon}
-          rules={rules}
-          layout={layout}
-          isError={isError} 
-          hideRequiredMark={hideRequiredMark}
+        <View className={cls(clsPrefix, {
+            [`${clsPrefix}-horizontal`]: isHorizontal,
+            [`${clsPrefix}-error`]: errors.length,
+          })}
         >
-          {label}
-        </FormItemLabel>
-        <View className="item-component">
-          <Control 
-            name={fieldCode} 
-            value={value} 
-            label={label}
-            child={child} 
-            isError={isError}
-            onChange={this.onChange} 
-            onErrorClick={this.onErrorClick}
-          />
-          {isError&&(
-            <View>
-              <AtToast 
-                duration={3000}
-                isOpened={isOpened}
-                text={showErrors} 
-                onClose={this.onToastClose}
-              />
-            </View>)}
+          <FormItemLabel
+            help={help}
+            rules={rules}
+            colon={colon}
+            isHorizontal={isHorizontal}
+            hideRequiredMark={hideRequiredMark}
+          >
+            {label}
+          </FormItemLabel>
+          <View className={`${clsPrefix}-control`}>
+            <Control 
+              name={fieldCode}
+              value={value} 
+              label={label}
+              child={child} 
+              onChange={this.onChange} 
+            />
+          </View>
         </View>
-      </View>
+      </FormItemWrapper>
     )
   }
 }

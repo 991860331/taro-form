@@ -1,0 +1,31 @@
+
+@import "~taro-ui/dist/style/mixins/libs/hairline.scss";
+
+$cls-prefix: 'cp-form-item-wrapper';
+$form-item-border-color: #d6e4ef;
+$form-item-tools-width: 60px;
+
+.#{$cls-prefix} {
+  padding: 22px 0px;
+  font-size: 32px;
+  min-height: 1.4rem;
+  display: flex;
+  align-items: center;
+  padding-right: 16px;
+  &-children {
+    flex: 1;
+  }
+  &-tools {
+    width: $form-item-tools-width;
+    display: flex;
+    justify-content: flex-end;
+  }
+  // 兼容 小程序端样式
+  &-tools-weapp {
+    // transform: translateY(-8px);
+  }
+}
+
+.#{$cls-prefix}-border {
+  @include hairline-bottom($form-item-border-color);
+}

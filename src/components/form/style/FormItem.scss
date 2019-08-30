@@ -1,22 +1,28 @@
 @import "~taro-ui/dist/style/mixins/libs/hairline.scss";
 
-.form-item {
-  @include hairline-bottom(#d6e4ef);
-  &::after {
-    z-index: 1;
-  }
-}
+$cls-prefix: 'cp-form-item';
 
-.item-component {
-  flex: 1;
-  .at-input {
+.#{$cls-prefix} {
+  .at-input, .at-switch {
+    padding: 0;
     margin-left: 0;
   }
+  &-control {
+    width: 100%;
+  }
 }
 
-.horizontal {
+.#{$cls-prefix}-horizontal {
   display: flex;
   align-items: baseline;
 }
+
+.#{$cls-prefix}-error {
+  color: red;
+  .at-input input {
+    color: red;
+  }
+}
+
 
 

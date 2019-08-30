@@ -1,40 +1,18 @@
-interface ICpForm {
-  colon: boolean;
-  layout: 'horizontal'|'vertical';
-  fields: Array;
-  initialValues?: object;
-  onFieldsChange?: Function;
-  hideRequiredMark?: boolean;
-}
 
-interface IFormItem {
-  field: Ifield;
-  value: any;
-  error: string[];
-  onChange: Function;
-  colon: boolean;
-  layout: 'horizontal'|'vertical';
-  hideRequiredMark?: boolean;
-}
+
+
 
 interface Ifield {
   fieldCode: string;
   label: string;
   child: Ichild;
   rules?: Array;
+  help?: string;
+  clear?: boolean;
+  isAlwaysVertical?: boolean;
 }
 
-interface IFormItemLabel {
-  rules: Array;
-  colon: boolean;
-  layout: 'horizontal'|'vertical';
-  isError: boolean;
-  hideRequiredMark?: boolean;
-}
 
-interface IFormItemError {
-  data: string[],
-}
 
 interface Ichild {
   type: string;
@@ -54,11 +32,64 @@ interface Irule {
   [otherProps: string]: any;
 }
 
+
+
+
+
+
+
+
+
+// --------------------------
+
+
+
+
+interface ICpForm {
+  fields: Array<Ifield>;
+  colon: boolean;
+  layout: 'horizontal'|'vertical';
+  border?: boolean;
+  initialValues?: object;
+  onFieldsChange?: Function;
+  hideRequiredMark?: boolean;
+}
+
+interface IFormItem {
+  field: Ifield;
+  value: any;
+  colon: boolean;
+  errors: string[];
+  layout: 'horizontal'|'vertical';
+  help?: string;
+  border?: boolean;
+  onChange: Function;
+  hideRequiredMark?: boolean;
+}
+
+interface IFormItemWrapper {
+  value: any;
+  clear?: boolean;
+  border?: boolean;
+  errors: string[];
+  onClear: Function;
+  renderIcon?: any;
+}
+
+
+interface IFormItemLabel {
+  rules: Array;
+  colon: boolean;
+  isHorizontal: boolean;
+  help?: string;
+  hideRequiredMark?: boolean;
+}
+
 export {
   Irule,
   Ichild,
   ICpForm,
   IFormItem,
   IFormItemLabel,
-  IFormItemError,
+  IFormItemWrapper,
 }

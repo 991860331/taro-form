@@ -2,18 +2,15 @@ import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
 import cls from 'classnames';
-import { AtToast } from "taro-ui";
-import FormItemLabel from './FormItemLabel';
 import Control from "../field/index";
+import FormItemLabel from './FormItemLabel';
+import FormItemWrapper from './FormItemWrapper';
 import './style/FormItem.scss';
-// 这些字段一直保持垂直布局
-const alwaysVerticalLayoutFields = ['TEXTAREA'];
+const clsPrefix = 'cp-form-item';
 export default class FormItem extends Taro.PureComponent {
   constructor() {
     super(...arguments);
-    this.state = {
-      isOpened: false
-    };
+    this.state = {};
     this.onChange = (value, event) => {
       const { field, onChange } = this.props;
       const { fieldCode } = field;
@@ -23,47 +20,35 @@ export default class FormItem extends Taro.PureComponent {
       }
       onChange(fieldCode, fieldValue);
     };
-    this.onErrorClick = e => {
-      if (e) {
-        e.preventDefault();
-      }
-      this.setState({
-        isOpened: true
-      });
-    };
-    this.onToastClose = () => {
-      this.setState({
-        isOpened: false
-      });
+    this.onClear = () => {
+      const { field, onChange } = this.props;
+      const { fieldCode } = field;
+      onChange(fieldCode, null);
     };
   }
   render() {
-    const { isOpened } = this.state;
-    const { field, value, error, hideRequiredMark, colon, layout } = this.props;
-    const { fieldCode, label, rules, child } = field;
+    const { field, value, errors, hideRequiredMark, colon, layout, border } = this.props;
+    const { fieldCode, label, rules, child, isAlwaysVertical, clear, help } = field;
     if (!child) return null;
-    const { type } = child;
-    const isError = error.length > 0;
-    const showErrors = error.join("\n");
-    const isHorizontal = layout === 'horizontal' && !alwaysVerticalLayoutFields.includes(type);
-    return <View className={cls("form-item", {
-      horizontal: isHorizontal
-    })}>
-        <FormItemLabel colon={colon} rules={rules} layout={layout} isError={isError} hideRequiredMark={hideRequiredMark}>
-          {label}
-        </FormItemLabel>
-        <View className="item-component">
-          <Control name={fieldCode} value={value} label={label} child={child} isError={isError} onChange={this.onChange} onErrorClick={this.onErrorClick} />
-          {isError && <View>
-              <AtToast duration={3000} isOpened={isOpened} text={showErrors} onClose={this.onToastClose} />
-            </View>}
+    const isHorizontal = layout === 'horizontal' && !isAlwaysVertical;
+    return <FormItemWrapper clear={clear} value={value} errors={errors} border={border} onClear={this.onClear}>
+        <View className={cls(clsPrefix, {
+        [`${clsPrefix}-horizontal`]: isHorizontal,
+        [`${clsPrefix}-error`]: errors.length
+      })}>
+          <FormItemLabel help={help} rules={rules} colon={colon} isHorizontal={isHorizontal} hideRequiredMark={hideRequiredMark}>
+            {label}
+          </FormItemLabel>
+          <View className={`${clsPrefix}-control`}>
+            <Control name={fieldCode} value={value} label={label} child={child} onChange={this.onChange} />
+          </View>
         </View>
-      </View>;
+      </FormItemWrapper>;
   }
 }
 FormItem.defaultProps = {
   field: {},
-  error: []
+  errors: []
 };
 FormItem.options = {
   styleIsolation: 'shared'

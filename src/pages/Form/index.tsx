@@ -56,12 +56,13 @@ export default class Index extends Taro.PureComponent {
 				</View>
 				<CpForm
 					colon={false}
+					border={true}
 					hideRequiredMark={false}
 					ref={instance => this.formInstance=instance}
-					layout={layout}  //vertical   horizontal
+					layout={layout} 
 					fields={fields}
 					initialValues={{
-						
+						textarea: 'nihao'
 					}}
 					onFieldsChange={this.onFieldsChange}
 				/>
