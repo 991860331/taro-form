@@ -1,6 +1,6 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
-import { View } from '@tarojs/components';
+import { View, RichText } from '@tarojs/components';
 import { AtInput, AtTextarea } from 'taro-ui';
 import NumberInput from "./NumberInput/index";
 import Percentage from "./Percentage/index";
@@ -10,6 +10,9 @@ import Date from "./Date/index";
 import CpRadio from "./Radio/index";
 import Multiselect from "./Multiselect/index";
 import Timestamp from "./Timestamp/index";
+import DisplayText from "./DisplayText/index";
+import Formula from "./Formula/index";
+import ImageSingle from "./ImageSingle/index";
 import './index.scss';
 // 大量的 if 但是没办法
 export default class Control extends Taro.PureComponent {
@@ -21,7 +24,7 @@ export default class Control extends Taro.PureComponent {
     const { type, ...otherProps } = child;
     otherProps.value = value;
     otherProps.onChange = onChange;
-    if (type === 'TEXT') {
+    if (type === 'TEXT' || type === 'URL' || type === 'EMAIL') {
       return <AtInput border={false} name={name} type="text" {...otherProps} />;
     }
     if (type === 'TEXTAREA') {
@@ -53,7 +56,35 @@ export default class Control extends Taro.PureComponent {
       return <Multiselect label={label} {...otherProps} />;
     }
     if (type === 'RADIOTREE') {
-      return 123;
+      return <Multiselect label={label} {...otherProps} />;
+    }
+    if (type === 'CELLPHONE') {
+      return <AtInput border={false} name={name} type="number" {...otherProps} />;
+    }
+    if (type === 'RICHTEXT') {
+      return <RichText nodes={[{
+        name: 'div',
+        attrs: {
+          class: 'div_class',
+          style: 'line-height: 60px; color: blue;'
+        },
+        children: [{
+          type: 'text',
+          text: 'Hello World!'
+        }]
+      }]} />;
+    }
+    if (type === 'AUTONUMBER') {
+      return <DisplayText {...otherProps} />;
+    }
+    if (type === 'MAP') {
+      return <View>map</View>;
+    }
+    if (type === 'FORMULA') {
+      return <Formula {...otherProps} />;
+    }
+    if (type === 'IMAGE_SINGLE') {
+      return <ImageSingle {...otherProps} />;
     }
     return <View className="unregistered">未注册的字段类型</View>;
   }

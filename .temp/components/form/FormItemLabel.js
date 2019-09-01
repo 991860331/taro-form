@@ -12,6 +12,8 @@ export default class FormItemLabel extends Taro.PureComponent {
       visible: false
     };
     this.handleViewHelp = () => {
+      const { help } = this.props;
+      if (typeof help !== 'string') return;
       this.setState({
         visible: true
       });

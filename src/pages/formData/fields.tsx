@@ -210,6 +210,7 @@ export default [
 		label: "个人主页",
 		child: {
 			type: 'URL',
+			placeholder: '请输入您的个人主页',
 		},
 	}, 
 	{
@@ -217,6 +218,7 @@ export default [
 		label: "个人邮箱",
 		child: {
 			type: 'EMAIL',
+			placeholder: '请输入您的个人邮箱',
 		},
 	}, 
 	{
@@ -224,6 +226,7 @@ export default [
 		label: "固定电话",
 		child: {
 			type: 'TELPHONE',
+			placeholder: '请输入您的固定电话',
 		},
 	}, 
 	{
@@ -238,6 +241,7 @@ export default [
 		label: "手机号码",
 		child: {
 			type: 'CELLPHONE',
+			placeholder: '请输入您的手机号码',
 		},
 	}, 
 	{
@@ -273,6 +277,7 @@ export default [
 		label: "公式",
 		child: {
 			type: 'FORMULA',
+			formulaResultType: "TIMESTAMP",
 		},
 	}, 
 	{

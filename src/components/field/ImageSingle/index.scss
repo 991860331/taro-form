@@ -1,0 +1,7 @@
+$cls-prefix: 'image-single';
+
+.#{$cls-prefix} {
+  .at-image-picker__choose-btn {
+    display: none !important;
+  }
+}

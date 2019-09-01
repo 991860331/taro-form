@@ -10,6 +10,9 @@ import Date from './Date'
 import CpRadio from './Radio'
 import Multiselect from './Multiselect'
 import Timestamp from './Timestamp'
+import DisplayText from './DisplayText'
+import Formula from './Formula'
+import ImageSingle from './ImageSingle'
 import './index.scss'
 
 interface IControl {
@@ -149,11 +152,17 @@ export default class Control extends Taro.PureComponent<IControl> {
         }]
       }]} />
     }
+    if (type === 'AUTONUMBER') {
+      return <DisplayText {...otherProps} />
+    }
     if (type === 'MAP') {
       return <View>map</View>
     }
+    if (type === 'FORMULA') {
+      return <Formula {...otherProps} />
+    }
     if (type === 'IMAGE_SINGLE') {
-      return <View>IMAGE_SINGLE</View>
+      return <ImageSingle {...otherProps} />
     }
     return <View className="unregistered">未注册的字段类型</View>
   }
