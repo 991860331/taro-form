@@ -2,4 +2,8 @@ $cls-prefix: 'i18n-code';
 
 .#{$cls-prefix} {
   padding-right: 36px;
+  display: flex;
+  &-value {
+    margin-right: 8px;
+  }
 }

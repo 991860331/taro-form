@@ -65,7 +65,7 @@ export default class Control extends Taro.PureComponent {
       return <AtInput border={false} name={name} type="number" {...otherProps} />;
     }
     if (type === 'TELPHONEI18N' || type === 'CELLPHONEI18N') {
-      return <I18NNumber {...otherProps} />;
+      return <I18NNumber name={name} {...otherProps} />;
     }
     if (type === 'RICHTEXT') {
       return <RichText nodes={[{

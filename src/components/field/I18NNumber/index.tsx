@@ -7,7 +7,7 @@ import './index.scss'
 const clsPrefix = 'i18n-number'
 
 interface II18NNumber {
-  value: string;
+  value: Object;
   [otherProps: string]: any;
 }
 export default class I18NNumber extends Taro.PureComponent<II18NNumber> {
@@ -16,13 +16,25 @@ export default class I18NNumber extends Taro.PureComponent<II18NNumber> {
     
   }
 
+  state = {
+    code: "",
+  }
   
+  onChange = number => {
+    const { onChange, value } = this.props
+    onChange({
+      ...value,
+      number,
+    })
+  }
 
   render() {
+    const { value, onChange, name } = this.props
+    const { number } = value || {}
     return (
       <View className={clsPrefix}>
-        <I18NCode />
-        <AtInput border={false} />
+        <I18NCode value={value} onChange={onChange} />
+        <AtInput name={name} border={false} onChange={this.onChange} value={number} />
       </View>
     )
   }

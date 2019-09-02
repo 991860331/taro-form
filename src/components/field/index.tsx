@@ -153,7 +153,7 @@ export default class Control extends Taro.PureComponent<IControl> {
       type === 'CELLPHONEI18N' 
     ) {
       return (
-        <I18NNumber {...otherProps} />
+        <I18NNumber name={name} {...otherProps} />
       )
     }
     if (type === 'RICHTEXT') {
