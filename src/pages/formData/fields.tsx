@@ -304,6 +304,7 @@ export default [
 	{
 		fieldCode: 'MAP',
 		label: "上班地点",
+		isAlwaysVertical: true,
 		child: {
 			type: 'MAP',
 		},

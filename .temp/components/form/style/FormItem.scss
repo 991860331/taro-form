@@ -14,7 +14,7 @@ $cls-prefix: 'cp-form-item';
 
 .#{$cls-prefix}-horizontal {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 
 .#{$cls-prefix}-error {

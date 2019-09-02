@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
-import { View, Text, RichText } from '@tarojs/components'
+import { View, Text, RichText, Map } from '@tarojs/components'
+// import transform from '@tarojs/transformer-wx'
 import { AtInput, AtTextarea, AtToast, AtRadio } from 'taro-ui'
 import { Ichild } from '../form/interface'
 import NumberInput from './NumberInput'
@@ -13,7 +14,10 @@ import Timestamp from './Timestamp'
 import DisplayText from './DisplayText'
 import Formula from './Formula'
 import ImageSingle from './ImageSingle'
+import I18NNumber from './I18NNumber'
+import CpMap from './Map'
 import './index.scss'
+
 
 interface IControl {
   child: Ichild;
@@ -42,7 +46,12 @@ export default class Control extends Taro.PureComponent<IControl> {
     const { type, ...otherProps } = child
     otherProps.value = value
     otherProps.onChange = onChange
-    if (type === 'TEXT' || type === 'URL' || type === 'EMAIL') {
+    if (
+      type === 'URL' || 
+      type === 'TEXT' || 
+      type === 'EMAIL' || 
+      type === 'TELPHONE'
+    ) {
       return (
         <AtInput 
           border={false}
@@ -139,6 +148,14 @@ export default class Control extends Taro.PureComponent<IControl> {
         />
       )
     }
+    if (
+      type === 'TELPHONEI18N' ||
+      type === 'CELLPHONEI18N' 
+    ) {
+      return (
+        <I18NNumber {...otherProps} />
+      )
+    }
     if (type === 'RICHTEXT') {
       return <RichText nodes={[{
         name: 'div',
@@ -156,7 +173,7 @@ export default class Control extends Taro.PureComponent<IControl> {
       return <DisplayText {...otherProps} />
     }
     if (type === 'MAP') {
-      return <View>map</View>
+      return <CpMap {...otherProps} />
     }
     if (type === 'FORMULA') {
       return <Formula {...otherProps} />

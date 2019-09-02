@@ -1,6 +1,7 @@
 import Nerv from "nervjs";
 import Taro from "@tarojs/taro-h5";
 import { View, RichText } from '@tarojs/components';
+// import transform from '@tarojs/transformer-wx'
 import { AtInput, AtTextarea } from 'taro-ui';
 import NumberInput from "./NumberInput/index";
 import Percentage from "./Percentage/index";
@@ -13,6 +14,8 @@ import Timestamp from "./Timestamp/index";
 import DisplayText from "./DisplayText/index";
 import Formula from "./Formula/index";
 import ImageSingle from "./ImageSingle/index";
+import I18NNumber from "./I18NNumber/index";
+import CpMap from "./Map/index";
 import './index.scss';
 // 大量的 if 但是没办法
 export default class Control extends Taro.PureComponent {
@@ -24,7 +27,7 @@ export default class Control extends Taro.PureComponent {
     const { type, ...otherProps } = child;
     otherProps.value = value;
     otherProps.onChange = onChange;
-    if (type === 'TEXT' || type === 'URL' || type === 'EMAIL') {
+    if (type === 'URL' || type === 'TEXT' || type === 'EMAIL' || type === 'TELPHONE') {
       return <AtInput border={false} name={name} type="text" {...otherProps} />;
     }
     if (type === 'TEXTAREA') {
@@ -61,6 +64,9 @@ export default class Control extends Taro.PureComponent {
     if (type === 'CELLPHONE') {
       return <AtInput border={false} name={name} type="number" {...otherProps} />;
     }
+    if (type === 'TELPHONEI18N' || type === 'CELLPHONEI18N') {
+      return <I18NNumber {...otherProps} />;
+    }
     if (type === 'RICHTEXT') {
       return <RichText nodes={[{
         name: 'div',
@@ -78,7 +84,7 @@ export default class Control extends Taro.PureComponent {
       return <DisplayText {...otherProps} />;
     }
     if (type === 'MAP') {
-      return <View>map</View>;
+      return <CpMap {...otherProps} />;
     }
     if (type === 'FORMULA') {
       return <Formula {...otherProps} />;

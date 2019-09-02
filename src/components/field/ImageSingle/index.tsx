@@ -2,11 +2,14 @@ import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import cls from 'classnames'
 import { AtImagePicker } from 'taro-ui'
+import './index.scss'
 
 // 单图片字段只能选择上传一张图片
 const COUNT = 1
+
 // 图片大小，每行可以展示的数量
 const ROW_LENGTH = 2
+
 const clsPrefix = 'image-single'
 
 interface IImageSingle {
@@ -27,6 +30,17 @@ export default class ImageSingle extends Taro.PureComponent<IImageSingle> {
     const { onChange } = this.props
     console.log(files, 'files')
     onChange(files)
+    
+  }
+
+  onFail = (msg) => {
+    console.log(msg, 'msg')
+  }
+
+  onImageClick = (index: number, file: {url: string}) => {
+    Taro.previewImage({
+      urls: [file.url],  //所有要预览的图片
+    })
   }
 
   render() {
@@ -43,6 +57,8 @@ export default class ImageSingle extends Taro.PureComponent<IImageSingle> {
           length={ROW_LENGTH}
           multiple={false}
           onChange={this.onChange}
+          onFail={this.onFail}
+          onImageClick={this.onImageClick}
         />
       </View>
     )
