@@ -34,7 +34,13 @@ export default class I18NNumber extends Taro.PureComponent<II18NNumber> {
     return (
       <View className={clsPrefix}>
         <I18NCode value={value} onChange={onChange} />
-        <AtInput name={name} border={false} onChange={this.onChange} value={number} />
+        <AtInput 
+          type="number"
+          name={name} 
+          border={false} 
+          onChange={this.onChange} 
+          value={number} 
+        />
       </View>
     )
   }

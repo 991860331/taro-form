@@ -3,6 +3,7 @@ import { View, Block, Text } from '@tarojs/components'
 import { AtInput, AtForm, AtButton } from 'taro-ui'
 import CpForm from '@/components/form'
 import fields from '../formData/fields'
+import values from '../formData/values'
 import './index.scss'
 
 
@@ -61,9 +62,7 @@ export default class Index extends Taro.PureComponent {
 					ref={instance => this.formInstance=instance}
 					layout={layout} 
 					fields={fields}
-					initialValues={{
-						textarea: 'nihao'
-					}}
+					initialValues={values}
 					onFieldsChange={this.onFieldsChange}
 				/>
 				<View className="buttons">
