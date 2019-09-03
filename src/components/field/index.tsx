@@ -173,7 +173,7 @@ export default class Control extends Taro.PureComponent<IControl> {
       return <DisplayText {...otherProps} />
     }
     if (type === 'MAP') {
-      return <CpMap {...otherProps} />
+      return <CpMap label={label} {...otherProps} />
     }
     if (type === 'FORMULA') {
       return <Formula {...otherProps} />

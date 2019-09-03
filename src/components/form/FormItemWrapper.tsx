@@ -15,6 +15,7 @@ export default class FormItemWrapper extends Taro.PureComponent<IFormItemWrapper
   static defaultProps = {
     clear: true,
     errors: [],
+    isFullRow: false,
   }
 
   state = {
@@ -35,7 +36,7 @@ export default class FormItemWrapper extends Taro.PureComponent<IFormItemWrapper
 
   render() {
     const { visible } = this.state
-    const { children, border, clear, renderIcon, errors, value, onClear } = this.props
+    const { children, border, clear, renderIcon, errors, value, onClear, isFullRow } = this.props
     const isError: boolean = errors.length > 0
     const toastErrors: string = errors.join("\n")
     const availableValue: boolean = isAvailableValue(value)
@@ -45,22 +46,23 @@ export default class FormItemWrapper extends Taro.PureComponent<IFormItemWrapper
         })}
       >
         <View className={`${clsPrefix}-children`}>{children}</View>
-        <View className={cls(`${clsPrefix}-tools`, {
-          [`${clsPrefix}-tools-weapp`]: weapp,  
-        })}>
-          {/* 没有错误，有清除属性，有值则显示清除按钮 */}
-          {!isError&&clear&&availableValue&&(
-            <AtIcon onClick={onClear} value='close-circle' size={toolsIconSize} color='#999'></AtIcon>
-          )}
-          {/* 没有错误，没有值则显示字段提示按钮 */}
-          {!isError&&!availableValue&&(
-            <View>{renderIcon}</View>
-          )}
-          {/* 错误按钮的等级最高, 有错误就显示错误提示按钮 */}
-          {isError&&(
-            <AtIcon onClick={this.handleViewErrors} value='alert-circle' size={toolsIconSize} color='#F00'></AtIcon>
-          )}
-        </View>
+        {!isFullRow&&(
+          <View className={cls(`${clsPrefix}-tools`, {
+            [`${clsPrefix}-tools-weapp`]: weapp,  
+          })}>
+            {/* 没有错误，有清除属性，有值则显示清除按钮 */}
+            {!isError&&clear&&availableValue&&(
+              <AtIcon onClick={onClear} value='close-circle' size={toolsIconSize} color='#999'></AtIcon>
+            )}
+            {/* 没有错误，没有值则显示字段提示按钮 */}
+            {!isError&&!availableValue&&(
+              <View>{renderIcon}</View>
+            )}
+            {/* 错误按钮的等级最高, 有错误就显示错误提示按钮 */}
+            {isError&&(
+              <AtIcon onClick={this.handleViewErrors} value='alert-circle' size={toolsIconSize} color='#F00'></AtIcon>
+            )}
+          </View>)}
         {isError&&(
           <AtToast 
             text={toastErrors}

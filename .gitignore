@@ -2,3 +2,4 @@
 /dist
 /yarn.lock
 /.temp
+/.DS_Store

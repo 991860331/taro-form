@@ -283,6 +283,7 @@ export default [
 	{
 		fieldCode: 'ENCLOSURE',
 		label: "附件",
+		isAlwaysVertical: true,
 		child: {
 			type: 'ENCLOSURE',
 		},
@@ -290,6 +291,7 @@ export default [
 	{
 		fieldCode: 'IMAGE_SINGLE',
 		label: "个人照片",
+		isAlwaysVertical: true,
 		child: {
 			type: 'IMAGE_SINGLE',
 		},
@@ -297,6 +299,8 @@ export default [
 	{
 		fieldCode: 'RICHTEXT',
 		label: "简历",
+		isFullRow: true,
+		isAlwaysVertical: true,
 		child: {
 			type: 'RICHTEXT',
 		},
@@ -304,7 +308,6 @@ export default [
 	{
 		fieldCode: 'MAP',
 		label: "上班地点",
-		isAlwaysVertical: true,
 		child: {
 			type: 'MAP',
 		},
@@ -329,6 +332,7 @@ export default [
 		fieldCode: 'textarea',
 		label: "反馈",
 		isAlwaysVertical: true,
+		isFullRow: true,
 		child: {
 			type: 'TEXTAREA',
 			placeholder: '你的问题是...',

@@ -16,6 +16,10 @@ export default class I18NNumber extends Taro.PureComponent<II18NNumber> {
     
   }
 
+  static options = {
+    styleIsolation: 'shared'
+  } 
+
   state = {
     code: "",
   }

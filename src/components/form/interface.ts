@@ -9,6 +9,7 @@ interface Ifield {
   rules?: Array;
   help?: string;
   clear?: boolean;
+  isFullRow?: boolean;
   isAlwaysVertical?: boolean;
 }
 
@@ -73,6 +74,7 @@ interface IFormItemWrapper {
   border?: boolean;
   errors: string[];
   onClear: Function;
+  isFullRow?: boolean;
   renderIcon?: any;
 }
 

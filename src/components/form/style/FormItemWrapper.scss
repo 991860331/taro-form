@@ -11,11 +11,11 @@ $form-item-tools-width: 60px;
   min-height: 1.4rem;
   display: flex;
   align-items: center;
-  padding-right: 16px;
   &-children {
     flex: 1;
   }
   &-tools {
+    padding-right: 16px;
     width: $form-item-tools-width;
     display: flex;
     justify-content: flex-end;
