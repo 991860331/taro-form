@@ -28,10 +28,10 @@ export default class FormItem extends Taro.PureComponent {
   }
   render() {
     const { field, value, errors, hideRequiredMark, colon, layout, border } = this.props;
-    const { fieldCode, label, rules, child, isAlwaysVertical, clear, help } = field;
+    const { fieldCode, label, rules, child, isAlwaysVertical, isFullRow, clear, help } = field;
     if (!child) return null;
     const isHorizontal = layout === 'horizontal' && !isAlwaysVertical;
-    return <FormItemWrapper clear={clear} value={value} errors={errors} border={border} onClear={this.onClear}>
+    return <FormItemWrapper clear={clear} value={value} errors={errors} border={border} onClear={this.onClear} isFullRow={isFullRow}>
         <View className={cls(clsPrefix, {
         [`${clsPrefix}-horizontal`]: isHorizontal,
         [`${clsPrefix}-error`]: errors.length
