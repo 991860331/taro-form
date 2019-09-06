@@ -36,16 +36,16 @@ class App extends Component {
       navigationBarTitleText: 'micro-git',
       navigationBarTextStyle: 'white',
     },
-    tabBar: {
-      list: [{
-        text: '首页',
-        pagePath: 'pages/index/index',
-      }, {
-        text: 'Form',
-        pagePath: 'pages/Form/index',
-      }],
-      color: '#b44c4c',
-    }
+    // tabBar: {
+    //   list: [{
+    //     text: '首页',
+    //     pagePath: 'pages/index/index',
+    //   }, {
+    //     text: 'Form',
+    //     pagePath: 'pages/Form/index',
+    //   }],
+    //   color: '#b44c4c',
+    // }
   }
 
   componentDidMount () {}

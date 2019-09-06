@@ -4,8 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtButton, AtActionSheet, AtActionSheetItem } from 'taro-ui'
 import { add, minus, asyncAdd } from '../../actions/counter'
-import FloatLayout from '../FloatLayout'
-
+import TreeSelect from '../../components/tree-select'
 import './index.less'
 
 // #region 书写注意
@@ -18,140 +17,90 @@ import './index.less'
 //
 // #endregion
 
-type PageStateProps = {
-  counter: {
-    num: number
+const data = [
+  {
+    label: "蔬菜",
+    value: '001',
+    children: [
+      {
+        label: "萝卜",
+        value: '002',
+      }, {
+        label: "白菜",
+        value: '003',
+      }
+    ]
+  }, {
+    label: "水果",
+    value: '004',
+    children: [
+      {
+        label: "苹果",
+        value: '005',
+        isLeaf: true
+      }, {
+        label: "橘子",
+        value: '006',
+      }
+    ]
   }
-}
 
-type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
-}
+]
 
-type PageOwnProps = {}
 
-type PageState = {}
 
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-interface Index {
-  props: IProps;
-}
 
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
-}))
-class Index extends Component {
 
-    /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
-    config: Config = {
+export default class Index extends Component {
+
+  config: Config = {
     navigationBarTitleText: '首页'
   }
 
   state = {
+    data: [],
     visible: true,
+    selectedList: []
   }
 
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        data,
+      })
+    }, 2000)
   }
 
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  open = () => {
+  onChange = (selectedList) => {
+    console.log(selectedList, 'selectedList')
     this.setState({
-      visible: true
+      selectedList,
     })
   }
 
-  onClose = () => {
-    this.setState({
-      visible: false,
+  onTreeLoadData = () => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve()
+      }, 2000)
     })
   }
 
   render () {
-    const { visible } = this.state
+    const { visible, selectedList, data } = this.state
     return (
       <View className='index'>
-        <AtButton type='primary' onClick={this.open}>open</AtButton>
-        {/* <FloatLayout 
-          title="FloatLayout"
-          isOpened={visible}
-          onClose={this.onClose}
-          renderHeader={
-            <View>renderHeader---</View>
-          }
-          renderFooter={
-            <View>renderFooter---</View>
-          }
-        >
-          
-          <View>1234</View>
-        </FloatLayout> */}
-        <AtActionSheet isOpened={visible}>
-          <AtActionSheetItem>
-            取消 确认
-          </AtActionSheetItem>
-          <AtActionSheetItem>
-            <View style={{height:'200px',overflow:'auto'}}>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-            </View>
-          </AtActionSheetItem>
-        </AtActionSheet>
+        <TreeSelect 
+          multiple
+          treeDefaultExpandAll
+          loadData={this.onTreeLoadData}
+          onChange={this.onChange}
+          value={selectedList}
+          dataSource={data}
+        />
       </View>
     )
   }
 }
 
-// #region 导出注意
-//
-// 经过上面的声明后需要将导出的 Taro.Component 子类修改为子类本身的 props 属性
-// 这样在使用这个子类时 Ts 才不会提示缺少 JSX 类型参数错误
-//
-// #endregion
-
-export default Index as ComponentClass<PageOwnProps, PageState>

@@ -1,0 +1,61 @@
+@import "~taro-ui/dist/style/mixins/libs/hairline.scss";
+
+$cls-prefix: 'cp-tree-wrapper';
+
+.#{$cls-prefix} {
+  padding: 18px;
+}
+
+.#{$cls-prefix}-radio {
+  
+}
+
+
+.#{$cls-prefix}-multiple {
+  
+}
+
+
+
+.tree {
+  padding-left: 36px;
+  &-item-label {
+    color: #333;
+    font-size: 32px;
+    padding: 24rpx 32rpx 24rpx 0;
+    @include hairline-bottom(#d6e4ef);
+  }
+  &-item-content {
+    position: relative;
+  }
+  &-item-more {
+    width: 80px;
+    height: 90px;
+    position: absolute;
+    padding-right: 16px;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  &-radio-checked {
+    color: #1890FF;
+    padding-right: 32px;
+  }
+
+  .tree-item-children {
+    display: none;
+  }
+  .tree-item-children-visible {
+    display: block;
+  }
+  .at-checkbox::before {
+    border-top: 0;
+  }
+}
+
+.tree-root {
+  padding-left: 0;
+}
