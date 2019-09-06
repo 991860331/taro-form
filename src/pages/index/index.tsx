@@ -2,8 +2,9 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-
+import { AtButton, AtActionSheet, AtActionSheetItem } from 'taro-ui'
 import { add, minus, asyncAdd } from '../../actions/counter'
+import FloatLayout from '../FloatLayout'
 
 import './index.less'
 
@@ -65,6 +66,10 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  state = {
+    visible: true,
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -75,14 +80,68 @@ class Index extends Component {
 
   componentDidHide () { }
 
+  open = () => {
+    this.setState({
+      visible: true
+    })
+  }
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    })
+  }
+
   render () {
+    const { visible } = this.state
     return (
       <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World shisong</Text></View>
+        <AtButton type='primary' onClick={this.open}>open</AtButton>
+        {/* <FloatLayout 
+          title="FloatLayout"
+          isOpened={visible}
+          onClose={this.onClose}
+          renderHeader={
+            <View>renderHeader---</View>
+          }
+          renderFooter={
+            <View>renderFooter---</View>
+          }
+        >
+          
+          <View>1234</View>
+        </FloatLayout> */}
+        <AtActionSheet isOpened={visible}>
+          <AtActionSheetItem>
+            取消 确认
+          </AtActionSheetItem>
+          <AtActionSheetItem>
+            <View style={{height:'200px',overflow:'auto'}}>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+            </View>
+          </AtActionSheetItem>
+        </AtActionSheet>
       </View>
     )
   }

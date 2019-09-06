@@ -1,8 +1,9 @@
 import Nerv from "nervjs";
 import * as tslib_1 from "tslib";
 import { Component } from "@tarojs/taro-h5";
-import { View, Button, Text } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { connect } from "@tarojs/redux-h5";
+import { AtButton, AtActionSheet, AtActionSheetItem } from 'taro-ui';
 import { add, minus, asyncAdd } from '../../actions/counter';
 import './index.less';
 let Index = class Index extends Component {
@@ -15,6 +16,10 @@ let Index = class Index extends Component {
     * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
     * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
     */
+
+    this.state = {
+      visible: true
+    };
   }
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps);
@@ -23,17 +28,61 @@ let Index = class Index extends Component {
   componentDidShow() {}
   componentDidHide() {}
   render() {
+    const { visible } = this.state;
     return <View className="index">
-        <Button className="add_btn" onClick={this.props.add}>+</Button>
-        <Button className="dec_btn" onClick={this.props.dec}>-</Button>
-        <Button className="dec_btn" onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World shisong</Text></View>
+        <AtButton type="primary" onClick={this.open}>open</AtButton>
+        
+        <AtActionSheet isOpened={visible}>
+          <AtActionSheetItem>
+            取消 确认
+          </AtActionSheetItem>
+          <AtActionSheetItem>
+            <View style={{ height: '200px', overflow: 'auto' }}>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+              <View>123</View>
+            </View>
+          </AtActionSheetItem>
+        </AtActionSheet>
       </View>;
   }
   config = {
     navigationBarTitleText: '首页'
   };
+  open = () => {
+    this.setState({
+      visible: true
+    });
+  };
+  onClose = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  componentDidMount() {
+    super.componentDidMount && super.componentDidMount();
+  }
+
 };
 Index = tslib_1.__decorate([connect(({ counter }) => ({
   counter
