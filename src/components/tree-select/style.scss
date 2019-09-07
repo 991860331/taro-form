@@ -44,6 +44,9 @@ $cls-prefix: 'cp-tree-wrapper';
     color: #1890FF;
     padding-right: 32px;
   }
+  &-radio-disabled {
+    opacity: 0.3;
+  }
 
   .tree-item-children {
     display: none;

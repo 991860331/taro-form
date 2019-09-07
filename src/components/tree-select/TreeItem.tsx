@@ -47,10 +47,16 @@ export default class TreeItem extends Taro.PureComponent<ITreeItem> {
     }
   }
 
+  handleTreeRadioChange = (value, disabled) => {
+    if (disabled) return 
+    const { onChange } = this.props
+    onChange(value)
+  }
+
   render() {
     const { visible, loading } = this.state
     const { selectedValue, onChange, multiple, data, treeDefaultExpandAll, loadData } = this.props
-    const { label, children, value, isLeaf } = data || {}
+    const { label, children, value, isLeaf, disabled } = data || {}
     const moreIcon = loading ? 'loading-3': visible ? 'chevron-down': 'chevron-up'
     const isRenderLeafIcon = isLeaf || (Array.isArray(children) && children.length > 0)
     const isChecked = selectedValue === value
@@ -63,6 +69,7 @@ export default class TreeItem extends Taro.PureComponent<ITreeItem> {
               options={[{
                 label,
                 value,
+                disabled,
               }]}
               onChange={onChange}
               selectedList={selectedValue}
@@ -70,11 +77,12 @@ export default class TreeItem extends Taro.PureComponent<ITreeItem> {
           {/* 单选树 */}
           {!multiple&&(
             <View 
-              onClick={() => onChange(value)} 
+              onClick={() => this.handleTreeRadioChange(value, disabled)} 
               className="tree-item-label"
             >
               <Text className={cls({
-                  "tree-radio-checked": isChecked
+                  "tree-radio-checked": isChecked,
+                  "tree-radio-disabled": disabled,
                 })}
               >
                 {label}

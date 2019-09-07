@@ -21,6 +21,7 @@ const data = [
   {
     label: "蔬菜",
     value: '001',
+    disabled: true,
     children: [
       {
         label: "萝卜",
@@ -92,7 +93,7 @@ export default class Index extends Component {
     return (
       <View className='index'>
         <TreeSelect 
-          multiple
+          multiple={false}
           treeDefaultExpandAll
           loadData={this.onTreeLoadData}
           onChange={this.onChange}
