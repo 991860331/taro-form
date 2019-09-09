@@ -1,106 +1,86 @@
 import Nerv from "nervjs";
-import * as tslib_1 from "tslib";
 import { Component } from "@tarojs/taro-h5";
 import { View } from '@tarojs/components';
-import { connect } from "@tarojs/redux-h5";
-import { AtButton, AtActionSheet, AtActionSheetItem } from 'taro-ui';
-import { add, minus, asyncAdd } from '../../actions/counter';
+import TreeSelect from "../../components/tree-select/index";
 import './index.less';
-let Index = class Index extends Component {
+// #region 书写注意
+//
+// 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
+// 需要显示声明 connect 的参数类型并通过 interface 的方式指定 Taro.Component 子类的 props
+// 这样才能完成类型检查和 IDE 的自动提示
+// 使用函数模式则无此限制
+// ref: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20796
+//
+// #endregion
+const data = [{
+  label: "蔬菜",
+  value: '001',
+  disabled: true,
+  children: [{
+    label: "萝卜",
+    value: '002'
+  }, {
+    label: "白菜",
+    value: '003'
+  }]
+}, {
+  label: "水果",
+  value: '004',
+  children: [{
+    label: "苹果",
+    value: '005',
+    isLeaf: true
+  }, {
+    label: "橘子",
+    value: '006'
+  }]
+}];
+export default class Index extends Component {
   constructor() {
     super(...arguments);
-    /**
-    * 指定config的类型声明为: Taro.Config
-    *
-    * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-    */
 
     this.state = {
-      visible: true
+      data: [],
+      visible: true,
+      selectedList: []
     };
   }
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps);
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        data
+      });
+    }, 2000);
   }
-  componentWillUnmount() {}
-  componentDidShow() {}
-  componentDidHide() {}
   render() {
-    const { visible } = this.state;
+    const { visible, selectedList, data } = this.state;
     return <View className="index">
-        <AtButton type="primary" onClick={this.open}>open</AtButton>
-        
-        <AtActionSheet isOpened={visible}>
-          <AtActionSheetItem>
-            取消 确认
-          </AtActionSheetItem>
-          <AtActionSheetItem>
-            <View style={{ height: '200px', overflow: 'auto' }}>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-              <View>123</View>
-            </View>
-          </AtActionSheetItem>
-        </AtActionSheet>
+        <TreeSelect multiple={false} treeDefaultExpandAll loadData={this.onTreeLoadData} onChange={this.onChange} value={selectedList} dataSource={data} />
       </View>;
   }
   config = {
     navigationBarTitleText: '首页'
   };
-  open = () => {
+  onChange = selectedList => {
+    console.log(selectedList, 'selectedList');
     this.setState({
-      visible: true
+      selectedList
     });
   };
-  onClose = () => {
-    this.setState({
-      visible: false
+  onTreeLoadData = () => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, 2000);
     });
   };
 
-  componentDidMount() {
-    super.componentDidMount && super.componentDidMount();
+  componentDidShow() {
+    super.componentDidShow && super.componentDidShow();
   }
 
-};
-Index = tslib_1.__decorate([connect(({ counter }) => ({
-  counter
-}), dispatch => ({
-  add() {
-    dispatch(add());
-  },
-  dec() {
-    dispatch(minus());
-  },
-  asyncAdd() {
-    dispatch(asyncAdd());
+  componentDidHide() {
+    super.componentDidHide && super.componentDidHide();
   }
-}))], Index);
-// #region 导出注意
-//
-// 经过上面的声明后需要将导出的 Taro.Component 子类修改为子类本身的 props 属性
-// 这样在使用这个子类时 Ts 才不会提示缺少 JSX 类型参数错误
-//
-// #endregion
-export default Index;
+
+}

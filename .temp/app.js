@@ -9,7 +9,6 @@ import './app.scss';
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
-import { View, Tabbar, TabbarContainer, TabbarPanel } from '@tarojs/components';
 import Nerv from "nervjs";
 import { Router, createHistory, mountApis } from '@tarojs/router';
 Taro.initPxTransform({
@@ -31,22 +30,6 @@ const _taroHistory = createHistory({
 mountApis(_taroHistory);
 const store = configStore();
 class App extends Component {
-  state = {
-    __tabs: {
-      list: [{
-        text: '首页',
-        pagePath: "/pages/index/index"
-      }, {
-        text: 'Form',
-        pagePath: "/pages/Form/index"
-      }],
-      color: '#b44c4c',
-      mode: "hash",
-      basename: "/",
-      customRoutes: {}
-    }
-  };
-
   constructor() {
     super(...arguments);
     /**
@@ -69,25 +52,16 @@ class App extends Component {
   render() {
     return <Provider store={store}>
                   
-                  <TabbarContainer>
-
-                    <TabbarPanel>
-                      
               <Router history={_taroHistory} routes={[{
-            path: '/pages/index/index',
-            componentLoader: () => import( /* webpackChunkName: "index_index" */'./pages/index/index'),
-            isIndex: true
-          }, {
-            path: '/pages/Form/index',
-            componentLoader: () => import( /* webpackChunkName: "Form_index" */'./pages/Form/index'),
-            isIndex: false
-          }]} customRoutes={{}} />
+        path: '/pages/index/index',
+        componentLoader: () => import( /* webpackChunkName: "index_index" */'./pages/index/index'),
+        isIndex: true
+      }, {
+        path: '/pages/Form/index',
+        componentLoader: () => import( /* webpackChunkName: "Form_index" */'./pages/Form/index'),
+        isIndex: false
+      }]} customRoutes={{}} />
               
-                    </TabbarPanel>
-
-                    <Tabbar conf={this.state.__tabs} homePage="pages/index/index" router={Taro} />
-
-                  </TabbarContainer>
                 </Provider>;
   }
   config = {
@@ -97,19 +71,11 @@ class App extends Component {
       navigationBarBackgroundColor: '#ff0000',
       navigationBarTitleText: 'micro-git',
       navigationBarTextStyle: 'white'
-    },
-    tabBar: { list: [{ text: '首页', pagePath: "/pages/index/index" }, { text: 'Form', pagePath: "/pages/Form/index" }], color: '#b44c4c', mode: "hash",
-      basename: "/",
-      customRoutes: {}
     }
   };
 
   componentWillUnmount() {
     this.componentDidHide();
-  }
-
-  componentWillMount() {
-    Taro.initTabBarApis(this, Taro);
   }
 
 }
