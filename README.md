@@ -88,6 +88,27 @@ export {
 
 - 一个文件导出了一个组件后，就不能再导出其他变量、方法等
 
+- 在循环中使用 Render Props ，在小程序中会渲染异常
+
+- SuspenseRender 无法达到预期效果
+```js
+export default class SuspenseRender extends Taro.PureComponent<ISuspenseRender> {
+
+  loaded = false
+
+  render() {
+    const { visible, children } = this.props
+    if (visible) {
+      this.loaded = true
+    }
+    const isRender = visible || this.loaded
+    return isRender&&(
+      <View>{children}</View>
+    )
+  }
+}
+```
+
 ## taro-ui
 
 - AtInput 组件在 type=number 类型时，返回值为 string
